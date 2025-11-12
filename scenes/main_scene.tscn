@@ -1,0 +1,21 @@
+[gd_scene load_steps=6 format=3 uid="uid://bhasarf4km7cm"]
+
+[ext_resource type="Texture2D" uid="uid://b1kjipeyg42nc" path="res://icon.svg" id="1_pw63i"]
+[ext_resource type="Script" uid="uid://dr7wde7pxk5ym" path="res://src/NewScript.cs" id="1_w2twt"]
+[ext_resource type="Script" uid="uid://dvaklvugjokiq" path="res://src/AudioStreamPlayer2d.cs" id="3_7ykc4"]
+[ext_resource type="AudioStream" uid="uid://ce0t8xkfrpb83" path="res://scenes/paul.mp3" id="3_pu3yx"]
+[ext_resource type="AudioStream" uid="uid://53icogiici40" path="res://src/em_sprogramme_mashup.mp3" id="5_gubc5"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(264, 118)
+texture = ExtResource("1_pw63i")
+script = ExtResource("1_w2twt")
+
+[node name="AudioListener2D" type="AudioListener2D" parent="Icon"]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Icon"]
+stream = ExtResource("3_pu3yx")
+script = ExtResource("3_7ykc4")
+audioStreams = Array[AudioStream]([ExtResource("3_pu3yx"), ExtResource("5_gubc5")])
