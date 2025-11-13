@@ -1,6 +1,6 @@
 using Godot;
-using System;
-using System.Collections.Generic;
+
+namespace FirstGodotGame;
 
 public partial class AudioStreamPlayer2d : AudioStreamPlayer2D
 {
