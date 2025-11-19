@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dbie13p2wgc0x"
-path="res://.godot/imported/Live_Garbriel.png-8df3d440e5b09bb847de4dd4b4992b3e.ctex"
+uid="uid://c6c2ao3chmm0c"
+path="res://.godot/imported/Test_Player.png-86075a50f30bce9c60abb237f3370d67.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Live_Garbriel.png"
-dest_files=["res://.godot/imported/Live_Garbriel.png-8df3d440e5b09bb847de4dd4b4992b3e.ctex"]
+source_file="res://assets/sprites/Test_Player.png"
+dest_files=["res://.godot/imported/Test_Player.png-86075a50f30bce9c60abb237f3370d67.ctex"]
 
 [params]
 

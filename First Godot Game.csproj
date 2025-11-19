@@ -5,4 +5,8 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>FirstGodotGame</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Include="src\shaders\test.gdshader" />
+    <Content Include="src\shaders\test.gdshader.uid" />
+  </ItemGroup>
 </Project>
