@@ -40,21 +40,14 @@ public partial class EntityManager : Node
 		while (true)
 		{
 			_highlightLayer.Clear();
-			
-			if (_entities[_turnIndex].EntityType == EntityStats.Type.Enemy)
+
+			if (_entities[_turnIndex].Health > 0)
 			{
-				await EnemyTurn(_entities[_turnIndex]);
-			
-				EndTurn();
-			
-			}else if(_entities[_turnIndex].EntityType == EntityStats.Type.Player){
-				
-			
-				await PlayerTurn();
-			
-				EndTurn();
+				await EntityTurn(_entities[_turnIndex]);
 			}
 			
+			
+			EndTurn();
 			await Task.Delay(TurnDurationMs);
 		}
 	}
@@ -67,7 +60,7 @@ public partial class EntityManager : Node
 		
 	}
 	
-	private async Task EnemyTurn(EntityStats entity)
+	private async Task EntityTurn(EntityStats entity)
 	{
 		//Enemy logic...
 		GD.Print($"Enemy Move! {_entities[_turnIndex].EntityName} ?");
@@ -78,17 +71,12 @@ public partial class EntityManager : Node
 		
 		await (entityMove?.Move(entity, _entities) ?? Task.CompletedTask);
 		
-		entityAttack?.Attack(entity, _entities);
+		await (entityAttack?.Attack(entity, _entities)?? Task.CompletedTask);
 	}
 
 	
 	
-	private Task PlayerTurn()
-	{
-		//Player logic...
-		GD.Print($"Player Move! {_entities[_turnIndex].EntityName} ?");
-		return Task.CompletedTask;
-	}
+
 	
 	
 }

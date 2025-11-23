@@ -37,9 +37,18 @@ public partial class EntityStats : Node
 
 
     [Export] public int MaxHealth { get; set; }
-    [Export] public int Health { get; set; }
     
-    [Export] public int Damage { get; set; }
+    private int _health;
+    [Export] public int Health {
+        get => _health;
+        set
+        {
+            _health = value;
+            
+            if (_health <= 0) (GetParent().GetChildren().FirstOrDefault(x => x is IEntityDie) as IEntityDie)?.Die(this);
+        }
+        
+    }
     
     [Export] public int Armor { get; set; }
     
@@ -54,4 +63,14 @@ public partial class EntityStats : Node
         Player,
         Enemy
     }
+
+    public void TakeDamage(int damage)
+    {
+        Health -= damage - Armor;
+    }
+    public void HealHealth(int health)
+    {
+        Health += health;
+    }
+    
 }

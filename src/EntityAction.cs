@@ -7,7 +7,7 @@ using static FirstGodotGame.Attack;
 
 namespace FirstGodotGame;
 
-public partial class EntityAction : Node, IEntityAttack, IEntityMove
+public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
 {
     private TileMapLayer _groundLayer;
     public TileMapLayer GroundLayer
@@ -32,82 +32,85 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove
 
     public async Task Attack(EntityStats ownEntityStats, List<EntityStats> allEntityStats)
     {
+        var attack = GetRandomAttack();
+
+        var possibleAttackOrigins = await HighlightPossibleOrigins(ownEntityStats, attack);
+        
+        await Task.Delay(500);
+        
+
+        Vector2I closestAttackPosition = FindClosestToPlayer(allEntityStats, possibleAttackOrigins);
+
+        List<Vector2I> attackedTiles = await FireAttack(closestAttackPosition, attack);
+        
+    }
+
+    protected async Task<List<Vector2I>> FireAttack(Vector2I attackPosition, Attack attack)
+    {
+        List<Vector2I> attackedTiles = [];
+        var attackOrigin = FindValueInPattern(attack.AttackPattern, AOR).First();
+        
+        foreach (var coordinate in (List<Vector2I>)[..FindValueInPattern(attack.AttackPattern, AOR), ..FindValueInPattern(attack.AttackPattern, AOE)])
+        {
+            var atkPos = coordinate - attackOrigin + attackPosition;
+            attackedTiles.Add(atkPos);
+                    
+            HighlightLayer.SetCell(atkPos, 1, new Vector2I(2,0));
+            await Task.Delay(10);
+        }
+        return attackedTiles;
+    }
+
+    protected Attack GetRandomAttack()
+    {
+        //Todo:Make Random?
+        
         var attacks = GetAttacks();
 
         var attack = attacks.First();
-        
-        Vector2I attackOrigin = new Vector2I(
-            attack.OriginPattern
-                .FindIndex(x =>
-                    x.Contains(AOR)),
+        return attack;
+    }
 
-            attack.OriginPattern
-                .First(x =>
-                    x.Contains(AOR))
-                .FindIndex(x => x == AOR)
-        );
+    protected async Task<List<Vector2I>> HighlightPossibleOrigins(EntityStats ownEntityStats, Attack attack)
+    {
+
+        var attackOrigin = FindValueInPattern(attack.OriginPattern, AOR).First();
 
         HighlightLayer.Clear();
 
         List<Vector2I> possibleAttackOrigins = new List<Vector2I>();
-        
-        for (int x = 0; x < attack.OriginPattern.Count; x++)
+
+        foreach (var coordinate in FindValueInPattern(attack.OriginPattern, AOE))
         {
-            for (int y = 0; y < attack.OriginPattern[1].Count; y++)
-            {
-                if (attack.OriginPattern[x][y] == AOE)
-                {
-                    var atkPos = new Vector2I(x,y) - attackOrigin + ownEntityStats.GridPosition;
-                    
-                    if (GroundLayer.GetCellTileData(atkPos) == null) continue;
-                    
-                    possibleAttackOrigins.Add(atkPos);
-                    
-                    HighlightLayer.SetCell(atkPos, 1, new Vector2I(1,0));
-                    
-                }
-            }
+            var atkPos = coordinate - attackOrigin + ownEntityStats.GridPosition;
+                
+            if (GroundLayer.GetCellTileData(atkPos) == null) continue;
+                
+            possibleAttackOrigins.Add(atkPos);
+            HighlightLayer.SetCell(atkPos, 1, new Vector2I(1,0));
+            await Task.Delay(10);
         }
 
-        await Task.Delay(500);
+        return possibleAttackOrigins;
+    }
 
-        attackOrigin = new Vector2I(
-            attack.AttackPattern
-                .FindIndex(x =>
-                    x.Contains(AOR)),
-
-            attack.AttackPattern
-                .First(x =>
-                    x.Contains(AOR))
-                .FindIndex(x => x == AOR)
-        );
-        
-        
-        Vector2I closestAttackPosition = FindClosestToPlayer(allEntityStats, possibleAttackOrigins);
-
-        List<Vector2I> attackedTiles = new List<Vector2I>();
-        
-        HighlightLayer.SetCell(closestAttackPosition, 1, new Vector2I(3,0));
-         
-        
-        for (int x = 0; x < attack.AttackPattern.Count; x++)
+    protected List<Vector2I> FindValueInPattern(List<List<int>> pattern, int value)
+    {
+        List<Vector2I> foundCoordinates = [];
+        for (int x = 0; x < pattern.Count; x++)
         {
-            for (int y = 0; y < attack.AttackPattern[0].Count; y++)
+            for (int y = 0; y < pattern[0].Count; y++)
             {
-                if (attack.AttackPattern[x][y] != NOA)
-                {
-                    var atkPos = new Vector2I(x, y) - attackOrigin + closestAttackPosition;
-                    attackedTiles.Add(atkPos);
-                    
-                    HighlightLayer.SetCell(atkPos, 1, new Vector2I(2,0));
-        
-                }
+                if (pattern[x][y] != value) continue;
+                var foundCoordinate = new Vector2I(x, y);
+                foundCoordinates.Add(foundCoordinate);
             }
         } 
         
+        return foundCoordinates;
     }
 
-    private List<Attack> GetAttacks()
+    protected List<Attack> GetAttacks()
     {
         List<Attack> attacks = GetChildren()
             .Where(x => x is IAttack)
@@ -132,7 +135,7 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove
         
     }
 
-    private void MoveStep(EntityStats ownEntityStats,  List<EntityStats> allEntityStats)
+    protected void MoveStep(EntityStats ownEntityStats,  List<EntityStats> allEntityStats)
     {
         List<Vector2I> moveOptions = new List<Vector2I>();
 		
@@ -156,7 +159,7 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove
         ownEntityStats.GridPosition = FindClosestToPlayer(allEntityStats, moveOptions);
     }
 
-    private Vector2I FindClosestToPlayer(List<EntityStats> allEntityStats, List<Vector2I> tiles)
+    protected Vector2I FindClosestToPlayer(List<EntityStats> allEntityStats, List<Vector2I> tiles)
     {
          return tiles.OrderBy(
             pos => 
@@ -165,5 +168,16 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove
                             eS.EntityType == EntityStats.Type.Player)
                         .GridPosition)
                 ).First();
+    }
+
+    public void Die(EntityStats entityStats)
+    {
+        GD.Print($"Peter the {entityStats.EntityName} is here!");
+        if (GetParent().GetChildren().FirstOrDefault(x => x is Sprite2D) is Sprite2D sprite)
+        {
+            sprite.RotationDegrees = 90;
+        }
+        
+
     }
 }

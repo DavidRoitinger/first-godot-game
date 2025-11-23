@@ -4,8 +4,8 @@
 [ext_resource type="Script" uid="uid://bcj0kn7emt0o6" path="res://src/Attacks/EnemyAttack/HorseAttack.cs" id="5_18nlu"]
 [ext_resource type="Script" uid="uid://dw87ck7kjiaib" path="res://src/HorseAction.cs" id="5_c16ls"]
 [ext_resource type="Script" uid="uid://dd5dwbly8qp80" path="res://src/EntityManager.cs" id="5_rt2n2"]
+[ext_resource type="Script" uid="uid://cox568iv3d5e7" path="res://src/PlayerAction.cs" id="7_c1pb6"]
 [ext_resource type="Texture2D" uid="uid://c6c2ao3chmm0c" path="res://assets/sprites/Test_Player.png" id="10_6wevv"]
-[ext_resource type="Script" uid="uid://cxwkomfby7mns" path="res://src/GridMovement.cs" id="10_e1cbu"]
 [ext_resource type="Shader" uid="uid://cqqokul14psc" path="res://src/shaders/test.gdshader" id="12_4w45t"]
 [ext_resource type="TileSet" uid="uid://cgglo8ysjk0tk" path="res://prefabs/Tileset.tres" id="13_r6p65"]
 
@@ -22,7 +22,7 @@ shader_parameter/amplitude = 0.1
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r6p65"]
 shader = ExtResource("12_4w45t")
 shader_parameter/colorR = 1.0
-shader_parameter/colorG = 1.0
+shader_parameter/colorG = 0.0
 shader_parameter/colorB = 1.0
 shader_parameter/colorA = 1.0
 shader_parameter/frequency = 10.0
@@ -43,6 +43,8 @@ texture = ExtResource("10_6wevv")
 
 [node name="EntityStats" parent="Entities/Enemy" instance=ExtResource("4_gubc5")]
 EntityName = "Evil and Intiminaiting Horse"
+MaxHealth = 1
+Health = 1
 Speed = 1
 EntityType = 2
 
@@ -63,6 +65,8 @@ texture = ExtResource("10_6wevv")
 [node name="EntityStats" parent="Entities/Enemy2" instance=ExtResource("4_gubc5")]
 EntityName = "Evil and Intiminaiting Horse"
 GridPosition = Vector2i(3, 3)
+MaxHealth = 1
+Health = 1
 Speed = 3
 EntityType = 2
 
@@ -73,7 +77,6 @@ script = ExtResource("5_c16ls")
 script = ExtResource("5_18nlu")
 
 [node name="Player" type="Node2D" parent="Entities" groups=["Entity", "Player"]]
-script = ExtResource("10_e1cbu")
 
 [node name="TestPlayer" type="Sprite2D" parent="Entities/Player"]
 z_index = 20
@@ -86,8 +89,16 @@ zoom = Vector2(2, 2)
 
 [node name="EntityStats" parent="Entities/Player" instance=ExtResource("4_gubc5")]
 EntityName = "Player"
-Speed = 1
+MaxHealth = 1
+Health = 1
+Speed = 4
 EntityType = 1
+
+[node name="EntityAction" type="Node" parent="Entities/Player"]
+script = ExtResource("7_c1pb6")
+
+[node name="Attack" type="Node" parent="Entities/Player/EntityAction"]
+script = ExtResource("5_18nlu")
 
 [node name="TilemapLayers" type="Node2D" parent="."]
 
