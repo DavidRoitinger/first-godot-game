@@ -1,138 +1,13 @@
-[gd_scene load_steps=29 format=4 uid="uid://bhasarf4km7cm"]
+[gd_scene load_steps=11 format=4 uid="uid://bhasarf4km7cm"]
 
-[ext_resource type="PackedScene" uid="uid://cs3gq5x35g8fg" path="res://prefabs/rigid_body_pf_test.tscn" id="1_18nlu"]
-[ext_resource type="Texture2D" uid="uid://b1kjipeyg42nc" path="res://icon.svg" id="1_pw63i"]
-[ext_resource type="Script" uid="uid://dr7wde7pxk5ym" path="res://src/NewScript.cs" id="1_w2twt"]
-[ext_resource type="Script" uid="uid://dvaklvugjokiq" path="res://src/AudioStreamPlayer2d.cs" id="3_7ykc4"]
-[ext_resource type="AudioStream" uid="uid://ce0t8xkfrpb83" path="res://assets/sound/paul.mp3" id="3_pu3yx"]
-[ext_resource type="AudioStream" uid="uid://53icogiici40" path="res://assets/sound/em_sprogramme_mashup.mp3" id="5_gubc5"]
-[ext_resource type="Texture2D" uid="uid://dbie13p2wgc0x" path="res://assets/sprites/Live_Garbriel.png" id="6_rt2n2"]
-[ext_resource type="Texture2D" uid="uid://dq4x4q1kxcmlg" path="res://assets/sprites/Felix.PNG" id="7_c16ls"]
-[ext_resource type="Texture2D" uid="uid://b0y6uvnb0ul5b" path="res://assets/sprites/moon_tileset.png" id="9_c1pb6"]
+[ext_resource type="PackedScene" uid="uid://d1mwef7ehs4b6" path="res://prefabs/entity_stats.tscn" id="4_gubc5"]
+[ext_resource type="Script" uid="uid://bcj0kn7emt0o6" path="res://src/Attacks/EnemyAttack/HorseAttack.cs" id="5_18nlu"]
+[ext_resource type="Script" uid="uid://dw87ck7kjiaib" path="res://src/HorseAction.cs" id="5_c16ls"]
+[ext_resource type="Script" uid="uid://dd5dwbly8qp80" path="res://src/EntityManager.cs" id="5_rt2n2"]
 [ext_resource type="Texture2D" uid="uid://c6c2ao3chmm0c" path="res://assets/sprites/Test_Player.png" id="10_6wevv"]
-[ext_resource type="Script" uid="uid://bdeav0hysuss7" path="res://src/PlayerController.cs" id="10_e1cbu"]
-[ext_resource type="Script" uid="uid://bm0ba1044ia1d" path="res://src/TileMapBoundariesGenerator.cs" id="10_mngbo"]
-[ext_resource type="Script" uid="uid://18ey843trldk" path="res://src/EnemyPathing.cs" id="11_r6p65"]
+[ext_resource type="Script" uid="uid://cxwkomfby7mns" path="res://src/GridMovement.cs" id="10_e1cbu"]
 [ext_resource type="Shader" uid="uid://cqqokul14psc" path="res://src/shaders/test.gdshader" id="12_4w45t"]
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_18nlu"]
-friction = 0.15
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_c1pb6"]
-size = Vector2(705, 348)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_c16ls"]
-size = Vector2(127, 127)
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_4w45t"]
-vertices = PackedVector2Array(16, 0, 0, 8, -16, 0, 0, -8)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(0, -8, -16, 0, 0, 8, 16, 0)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_r6p65"]
-vertices = PackedVector2Array(16, 0, 0, 8, -16, 0, 0, -8)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(0, -8, -16, 0, 0, 8, 16, 0)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_si52b"]
-vertices = PackedVector2Array(16, 0, 0, 8, -16, 0, 0, -8)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(0, -8, -16, 0, 0, 8, 16, 0)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_01n6w"]
-vertices = PackedVector2Array(16, 0, 0, 8, -16, 0, 0, -8)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(0, -8, -16, 0, 0, 8, 16, 0)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_6u1mn"]
-vertices = PackedVector2Array(16, 0, 0, 8, -16, 0, 0, -8)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(0, -8, -16, 0, 0, 8, 16, 0)])
-agent_radius = 0.0
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6wevv"]
-texture = ExtResource("9_c1pb6")
-texture_region_size = Vector2i(32, 32)
-0:0/0 = 0
-0:0/0/texture_origin = Vector2i(0, -8)
-0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_4w45t")
-1:0/0 = 0
-1:0/0/texture_origin = Vector2i(0, -8)
-1:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_4w45t")
-2:0/0 = 0
-2:0/0/texture_origin = Vector2i(0, -8)
-2:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_4w45t")
-3:0/0 = 0
-3:0/0/texture_origin = Vector2i(0, -8)
-3:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_4w45t")
-4:0/0 = 0
-4:0/0/texture_origin = Vector2i(0, -8)
-4:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_4w45t")
-5:0/0 = 0
-5:0/0/texture_origin = Vector2i(0, -8)
-5:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_01n6w")
-6:0/0 = 0
-6:0/0/texture_origin = Vector2i(0, -8)
-6:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_4w45t")
-0:1/0 = 0
-0:1/0/texture_origin = Vector2i(0, -8)
-0:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_r6p65")
-1:1/0 = 0
-1:1/0/texture_origin = Vector2i(0, -8)
-1:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_r6p65")
-2:1/0 = 0
-2:1/0/texture_origin = Vector2i(0, -8)
-2:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_r6p65")
-0:2/0 = 0
-0:2/0/texture_origin = Vector2i(0, -8)
-1:2/0 = 0
-1:2/0/texture_origin = Vector2i(0, -8)
-2:2/0 = 0
-2:2/0/texture_origin = Vector2i(0, -8)
-3:2/0 = 0
-3:2/0/texture_origin = Vector2i(0, -8)
-4:2/0 = 0
-4:2/0/texture_origin = Vector2i(0, -8)
-5:2/0 = 0
-5:2/0/texture_origin = Vector2i(0, -8)
-6:2/0 = 0
-6:2/0/texture_origin = Vector2i(0, -8)
-7:2/0 = 0
-7:2/0/texture_origin = Vector2i(0, -8)
-5:3/0 = 0
-5:3/0/texture_origin = Vector2i(0, -8)
-5:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_6u1mn")
-4:3/0 = 0
-4:3/0/texture_origin = Vector2i(0, -8)
-3:3/0 = 0
-3:3/0/texture_origin = Vector2i(0, -8)
-2:3/0 = 0
-2:3/0/texture_origin = Vector2i(0, -8)
-2:3/0/z_index = 1
-2:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_si52b")
-1:3/0 = 0
-1:3/0/texture_origin = Vector2i(0, -8)
-1:3/0/z_index = 1
-1:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_si52b")
-0:3/0 = 0
-0:3/0/texture_origin = Vector2i(0, -8)
-0:3/0/z_index = 1
-0:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_si52b")
-3:1/0 = 0
-3:1/0/texture_origin = Vector2i(0, -8)
-3:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(0, -8, -16, 0, 0, 8, 16, 0)
-
-[sub_resource type="TileSet" id="TileSet_18nlu"]
-tile_shape = 1
-tile_layout = 5
-tile_size = Vector2i(32, 16)
-physics_layer_0/collision_layer = 1
-navigation_layer_0/layers = 1
-sources/3 = SubResource("TileSetAtlasSource_6wevv")
+[ext_resource type="TileSet" uid="uid://cgglo8ysjk0tk" path="res://prefabs/Tileset.tres" id="13_r6p65"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_si52b"]
 shader = ExtResource("12_4w45t")
@@ -144,9 +19,6 @@ shader_parameter/frequency = 10.0
 shader_parameter/speed = 1.0
 shader_parameter/amplitude = 0.1
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_r6p65"]
-radius = 1.0
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r6p65"]
 shader = ExtResource("12_4w45t")
 shader_parameter/colorR = 1.0
@@ -157,102 +29,78 @@ shader_parameter/frequency = 10.0
 shader_parameter/speed = 5.0
 shader_parameter/amplitude = 0.1
 
-[sub_resource type="SegmentShape2D" id="SegmentShape2D_4w45t"]
-a = Vector2(-6, 0)
-b = Vector2(6, 0)
-
 [node name="Node2D" type="Node2D"]
 
-[node name="RigidBody2D" parent="." instance=ExtResource("1_18nlu")]
-position = Vector2(636, 122)
+[node name="Entities" type="Node2D" parent="."]
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-position = Vector2(815, 421)
-rotation = 0.14835298
-physics_material_override = SubResource("PhysicsMaterial_18nlu")
+[node name="Enemy" type="Node2D" parent="Entities" groups=["Enemy", "Entity"]]
+z_index = 15
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-shape = SubResource("RectangleShape2D_c1pb6")
-
-[node name="Felix" type="Sprite2D" parent="StaticBody2D"]
-texture = ExtResource("7_c16ls")
-
-[node name="Test_CharacterBody2D" type="CharacterBody2D" parent="."]
-position = Vector2(623, -106)
-motion_mode = 1
-script = ExtResource("1_w2twt")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Test_CharacterBody2D"]
-shape = SubResource("RectangleShape2D_c16ls")
-
-[node name="Icon" type="Sprite2D" parent="Test_CharacterBody2D"]
-texture = ExtResource("1_pw63i")
-
-[node name="AudioListener2D" type="AudioListener2D" parent="Test_CharacterBody2D/Icon"]
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Test_CharacterBody2D/Icon"]
-position = Vector2(-4, 1)
-stream = ExtResource("3_pu3yx")
-script = ExtResource("3_7ykc4")
-audioStreams = Array[AudioStream]([ExtResource("3_pu3yx"), ExtResource("5_gubc5")])
-
-[node name="CPUParticles2D" type="CPUParticles2D" parent="Test_CharacterBody2D/Icon"]
-amount = 13
-texture = ExtResource("6_rt2n2")
-direction = Vector2(0, -1)
-spread = 59.39
-gravity = Vector2(0, -400)
-initial_velocity_max = 368.04
-angular_velocity_min = -45.0
-angular_velocity_max = 45.0
-scale_amount_min = 0.05
-scale_amount_max = 0.1
-color = Color(1, 1, 1, 0.18431373)
-
-[node name="RigidBody2D2" parent="." instance=ExtResource("1_18nlu")]
-position = Vector2(486, 72)
-
-[node name="RigidBody2D3" parent="." instance=ExtResource("1_18nlu")]
-position = Vector2(833, 142)
-
-[node name="TileMapLayer" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAD8//7/AwAAAAAAAAD8////AwAAAAAAAAD8/wAAAwAAAAAAAAD8/wEAAwAAAAAAAAD8/wIAAwAAAAAAAAD8/wMAAwAAAAAAAAD9//7/AwAAAAAAAAD9////AwAAAAAAAAD9/wAAAwAAAAAAAAD9/wEAAwAAAAAAAAD9/wIAAwAAAAAAAAD9/wMAAwAAAAAAAAD+//7/AwAAAAAAAAD+////AwAAAAAAAAD+/wAAAwAAAAAAAAD+/wEAAwAAAAAAAAD+/wIAAwAAAAAAAAD+/wMAAwAAAAAAAAD///7/AwAAAAAAAAD/////AwAAAAAAAAD//wAAAwAAAAAAAAD//wEAAwAAAAAAAAD//wIAAwAAAAAAAAAAAP7/AwAAAAAAAAAAAP//AwAAAAAAAAAAAAAAAwAAAAAAAAAAAAEAAwAAAAAAAAAAAAIAAwAAAAAAAAAAAAMAAwAAAAAAAAABAP7/AwAAAAAAAAABAP//AwAAAAAAAAABAAAAAwAAAAAAAAABAAEAAwAAAAAAAAABAAIAAwAAAAAAAAABAAMAAwAAAAAAAAD6//v/AwAAAAAAAAD7//v/AwAAAAAAAAD8//v/AwAAAAAAAAD9//v/AwAAAAAAAAD+//v/AwAAAAAAAAD///v/AwAAAAAAAAAAAPv/AwAAAAAAAAABAPv/AwAAAAAAAAACAPv/AwAAAAAAAAD6//z/AwAAAAAAAAD6//3/AwAAAAAAAAD6//7/AwAAAAAAAAD6////AwAAAAAAAAD5/wAAAwAAAAAAAAD6/wAAAwAAAAAAAAD6/wEAAwAAAAAAAAD6/wIAAwAAAAAAAAD7//z/AwAAAAAAAAD8//z/AwAAAAAAAAD9//z/AwAAAAAAAAD+//z/AwAAAAAAAAD///z/AwAAAAAAAAAAAPz/AwAAAAAAAAABAPz/AwAAAAAAAAACAPz/AwAAAAAAAAD5//v/AwAAAAAAAAD5//z/AwAAAAAAAAD5//3/AwAAAAAAAAD5//7/AwAAAAAAAAD5////AwAAAAAAAAD4/wAAAwAAAAAAAAD5/wEAAwAAAAAAAAD4/wEAAwAAAAAAAAD4/wIAAwAAAAAAAAD5/wIAAwAAAAAAAAD4////AwAAAAAAAAD4//7/AwAAAAAAAAD4//3/AwAAAAAAAAD4//z/AwAAAAAAAAD4//v/AwAAAAAAAAD4//r/AwAAAAAAAAD5//r/AwAAAAAAAAD6//r/AwAAAAAAAAD7//r/AwAAAAAAAAD8//r/AwAAAAAAAAD9//r/AwAAAAAAAAD+//r/AwAAAAAAAAD///r/AwAAAAAAAAABAPr/AwAAAAAAAAACAPr/AwAAAAAAAAAAAPr/AwAAAAAAAAD+//3/AwAAAAMAAAD7//3/AwAAAAMAAAD8//3/AwAAAAMAAAAAAP3/AwAAAAMAAAD7////AwACAAMAAAD7/wEAAwACAAMAAAD6/wMAAwAAAAAAAAD6/wQAAwAAAAAAAAD6/wUAAwAAAAAAAAD6/wYAAwAAAAAAAAD6/wcAAwAAAAAAAAD6/wgAAwAAAAAAAAD7/wgAAwAAAAAAAAD8/wgAAwAAAAAAAAD9/wgAAwAAAAAAAAD+/wgAAwAAAAAAAAD//wgAAwAAAAAAAAAAAAgAAwAAAAAAAAABAAgAAwAAAAAAAAACAAgAAwAAAAAAAAADAAgAAwAAAAAAAAAEAAgAAwAAAAAAAAAFAAgAAwAAAAAAAAAFAAcAAwAAAAAAAAAFAAYAAwAAAAAAAAAFAAUAAwAAAAAAAAAFAAQAAwAAAAAAAAAFAAMAAwAAAAAAAAAEAAMAAwAAAAAAAAAEAAQAAwAAAAAAAAAEAAUAAwAAAAAAAAADAAYAAwAAAAAAAAAEAAYAAwAAAAAAAAAEAAcAAwAAAAAAAAADAAcAAwAAAAAAAAACAAcAAwAAAAAAAAABAAcAAwAAAAAAAAAAAAcAAwAAAAAAAAD//wcAAwAAAAAAAAD+/wcAAwAAAAAAAAD9/wcAAwAAAAAAAAD9/wYAAwAAAAAAAAD8/wYAAwAAAAAAAAD7/wYAAwAAAAAAAAD8/wcAAwAAAAAAAAD7/wcAAwAAAAAAAAD+/wYAAwAAAAAAAAD//wYAAwAAAAAAAAAAAAYAAwAAAAAAAAABAAYAAwAAAAAAAAACAAYAAwAAAAAAAAAEAAIAAwAAAAAAAAAFAAIAAwAAAAAAAAAFAAEAAwAAAAAAAAAEAAEAAwAAAAAAAAADAAEAAwAAAAAAAAADAAIAAwAAAAAAAAADAAMAAwAAAAAAAAADAAQAAwAAAAAAAAD//wMAAwAAAAAAAAD7/wUAAwAAAAAAAAD8/wUAAwAAAAAAAAD9/wUAAwAAAAAAAAD+/wUAAwAAAAAAAAD//wUAAwAAAAAAAAAAAAUAAwAAAAAAAAABAAUAAwAAAAAAAAACAAUAAwAAAAAAAAACAAEAAwACAAMAAAACAAIAAwACAAMAAAACAAMAAwACAAMAAAD//wQAAwAAAAMAAAD+/wQAAwAAAAMAAAD9/wQAAwAAAAMAAAD4/wMAAwAAAAAAAAD5/wMAAwAAAAAAAAD5/wQAAwAAAAAAAAD5/wUAAwAAAAAAAAD5/wYAAwAAAAAAAAD5/wcAAwAAAAAAAAD4/wYAAwAAAAAAAAD4/wUAAwAAAAAAAAD4/wQAAwAAAAAAAAADAPr/AwAAAAAAAAADAPv/AwAAAAAAAAADAPz/AwAAAAAAAAADAP3/AwAAAAAAAAADAP7/AwAAAAAAAAADAP//AwAAAAAAAAADAAAAAwAAAAAAAAAEAAAAAwAAAAAAAAAEAP//AwAAAAAAAAAEAP7/AwAAAAAAAAAEAP3/AwAAAAAAAAAEAPz/AwAAAAAAAAAEAPv/AwAAAAAAAAAFAP3/AwAAAAAAAAAFAP7/AwAAAAAAAAAFAP//AwAAAAAAAAAFAAAAAwAAAAAAAAAFAPz/AwAAAAAAAAACAAQAAwABAAMAAAADAAUAAwAAAAAAAAA=")
-tile_set = SubResource("TileSet_18nlu")
-script = ExtResource("10_mngbo")
-
-[node name="Enemy" type="CharacterBody2D" parent="."]
-z_index = 5
-position = Vector2(130, 0)
-script = ExtResource("11_r6p65")
-
-[node name="EnemyTexture" type="Sprite2D" parent="Enemy"]
+[node name="EnemyTexture" type="Sprite2D" parent="Entities/Enemy"]
 material = SubResource("ShaderMaterial_si52b")
+position = Vector2(0, -12)
 texture = ExtResource("10_6wevv")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy"]
-position = Vector2(0, 13)
-shape = SubResource("CircleShape2D_r6p65")
-disabled = true
+[node name="EntityStats" parent="Entities/Enemy" instance=ExtResource("4_gubc5")]
+EntityName = "Evil and Intiminaiting Horse"
+Speed = 1
+EntityType = 2
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="Enemy"]
-simplify_path = true
-avoidance_enabled = true
-debug_enabled = true
+[node name="EntityAction" type="Node" parent="Entities/Enemy"]
+script = ExtResource("5_c16ls")
 
-[node name="Player" type="CharacterBody2D" parent="." groups=["Player"]]
-z_index = 5
+[node name="Attack" type="Node" parent="Entities/Enemy/EntityAction"]
+script = ExtResource("5_18nlu")
+
+[node name="Enemy2" type="Node2D" parent="Entities" groups=["Enemy", "Entity"]]
+z_index = 15
+
+[node name="EnemyTexture" type="Sprite2D" parent="Entities/Enemy2"]
+material = SubResource("ShaderMaterial_si52b")
+position = Vector2(0, -12)
+texture = ExtResource("10_6wevv")
+
+[node name="EntityStats" parent="Entities/Enemy2" instance=ExtResource("4_gubc5")]
+EntityName = "Evil and Intiminaiting Horse"
+GridPosition = Vector2i(3, 3)
+Speed = 3
+EntityType = 2
+
+[node name="EntityAction" type="Node" parent="Entities/Enemy2"]
+script = ExtResource("5_c16ls")
+
+[node name="Attack" type="Node" parent="Entities/Enemy2/EntityAction"]
+script = ExtResource("5_18nlu")
+
+[node name="Player" type="Node2D" parent="Entities" groups=["Entity", "Player"]]
 script = ExtResource("10_e1cbu")
-Speed = 64.0
 
-[node name="TestPlayer" type="Sprite2D" parent="Player"]
+[node name="TestPlayer" type="Sprite2D" parent="Entities/Player"]
+z_index = 20
 material = SubResource("ShaderMaterial_r6p65")
+position = Vector2(0, -12)
 texture = ExtResource("10_6wevv")
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="Camera2D" type="Camera2D" parent="Entities/Player"]
 zoom = Vector2(2, 2)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-position = Vector2(-1, 13)
-shape = SubResource("SegmentShape2D_4w45t")
+[node name="EntityStats" parent="Entities/Player" instance=ExtResource("4_gubc5")]
+EntityName = "Player"
+Speed = 1
+EntityType = 1
 
-[connection signal="velocity_computed" from="Enemy/NavigationAgent2D" to="Enemy" method="_on_navigation_agent_2d_velocity_computed"]
+[node name="TilemapLayers" type="Node2D" parent="."]
+
+[node name="GroundLayer" type="TileMapLayer" parent="TilemapLayers" groups=["Tilemap"]]
+tile_map_data = PackedByteArray("AAD8//7/AAAAAAAAAAD8////AAAAAAAAAAD8/wAAAAAAAAAAAAD8/wEAAAAAAAAAAAD8/wIAAAAAAAAAAAD8/wMAAAAAAAAAAAD9//7/AAAAAAAAAAD9////AAAAAAAAAAD9/wAAAAAAAAAAAAD9/wEAAAAAAAAAAAD9/wIAAAAAAAAAAAD9/wMAAAAAAAAAAAD+//7/AAAAAAAAAAD+////AAAAAAAAAAD+/wAAAAAAAAAAAAD+/wEAAAAAAAAAAAD+/wIAAAAAAAAAAAD+/wMAAAAAAAAAAAD///7/AAAAAAAAAAD/////AAAAAAAAAAD//wAAAAAAAAAAAAD//wEAAAAAAAAAAAD//wIAAAAAAAAAAAAAAP7/AAAAAAAAAAAAAP//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAABAP7/AAAAAAAAAAABAP//AAAAAAAAAAABAAAAAAAAAAAAAAABAAEAAAAAAAAAAAABAAIAAAAAAAAAAAABAAMAAAAAAAAAAAD6//v/AAAAAAAAAAD7//v/AAAAAAAAAAD8//v/AAAAAAAAAAD9//v/AAAAAAAAAAD+//v/AAAAAAAAAAD///v/AAAAAAAAAAAAAPv/AAAAAAAAAAABAPv/AAAAAAAAAAACAPv/AAAAAAAAAAD6//z/AAAAAAAAAAD6//3/AAAAAAAAAAD6//7/AAAAAAAAAAD6////AAAAAAAAAAD5/wAAAAAAAAAAAAD6/wAAAAAAAAAAAAD6/wEAAAAAAAAAAAD6/wIAAAAAAAAAAAD7//z/AAAAAAAAAAD8//z/AAAAAAAAAAD9//z/AAAAAAAAAAD+//z/AAAAAAAAAAD///z/AAAAAAAAAAAAAPz/AAAAAAAAAAABAPz/AAAAAAAAAAACAPz/AAAAAAAAAAD5//v/AAAAAAAAAAD5//z/AAAAAAAAAAD5//3/AAAAAAAAAAD5//7/AAAAAAAAAAD5////AAAAAAAAAAD4/wAAAAAAAAAAAAD5/wEAAAAAAAAAAAD4/wEAAAAAAAAAAAD4/wIAAAAAAAAAAAD5/wIAAAAAAAAAAAD4////AAAAAAAAAAD4//7/AAAAAAAAAAD4//3/AAAAAAAAAAD4//z/AAAAAAAAAAD4//v/AAAAAAAAAAD4//r/AAAAAAAAAAD5//r/AAAAAAAAAAD6//r/AAAAAAAAAAD7//r/AAAAAAAAAAD8//r/AAAAAAAAAAD9//r/AAAAAAAAAAD+//r/AAAAAAAAAAD///r/AAAAAAAAAAABAPr/AAAAAAAAAAACAPr/AAAAAAAAAAAAAPr/AAAAAAAAAAD+//3/AAAAAAMAAAD7//3/AAAAAAMAAAD8//3/AAAAAAMAAAAAAP3/AAAAAAMAAAD7////AAACAAMAAAD7/wEAAAACAAMAAAD6/wMAAAAAAAAAAAD6/wQAAAAAAAAAAAD6/wUAAAAAAAAAAAD6/wYAAAAAAAAAAAD6/wcAAAAAAAAAAAD6/wgAAAAAAAAAAAD7/wgAAAAAAAAAAAD8/wgAAAAAAAAAAAD9/wgAAAAAAAAAAAD+/wgAAAAAAAAAAAD//wgAAAAAAAAAAAAAAAgAAAAAAAAAAAABAAgAAAAAAAAAAAACAAgAAAAAAAAAAAADAAgAAAAAAAAAAAAEAAgAAAAAAAAAAAAFAAgAAAAAAAAAAAAFAAcAAAAAAAAAAAAFAAYAAAAAAAAAAAAFAAUAAAAAAAAAAAAFAAQAAAAAAAAAAAAFAAMAAAAAAAAAAAAEAAMAAAAAAAAAAAAEAAQAAAAAAAAAAAAEAAUAAAAAAAAAAAADAAYAAAAAAAAAAAAEAAYAAAAAAAAAAAAEAAcAAAAAAAAAAAADAAcAAAAAAAAAAAACAAcAAAAAAAAAAAABAAcAAAAAAAAAAAAAAAcAAAAAAAAAAAD//wcAAAAAAAAAAAD+/wcAAAAAAAAAAAD9/wcAAAAAAAAAAAD9/wYAAAAAAAAAAAD8/wYAAAAAAAAAAAD7/wYAAAAAAAAAAAD8/wcAAAAAAAAAAAD7/wcAAAAAAAAAAAD+/wYAAAAAAAAAAAD//wYAAAAAAAAAAAAAAAYAAAAAAAAAAAABAAYAAAAAAAAAAAACAAYAAAAAAAAAAAAEAAIAAAAAAAAAAAAFAAIAAAAAAAAAAAAFAAEAAAAAAAAAAAAEAAEAAAAAAAAAAAADAAEAAAAAAAAAAAADAAIAAAAAAAAAAAADAAMAAAAAAAAAAAADAAQAAAAAAAAAAAD//wMAAAAAAAAAAAD7/wUAAAAAAAAAAAD8/wUAAAAAAAAAAAD9/wUAAAAAAAAAAAD+/wUAAAAAAAAAAAD//wUAAAAAAAAAAAAAAAUAAAAAAAAAAAABAAUAAAAAAAAAAAACAAUAAAAAAAAAAAACAAEAAAACAAMAAAACAAIAAAACAAMAAAACAAMAAAACAAMAAAD//wQAAAAAAAMAAAD+/wQAAAAAAAMAAAD9/wQAAAAAAAMAAAD4/wMAAAAAAAAAAAD5/wMAAAAAAAAAAAD5/wQAAAAAAAAAAAD5/wUAAAAAAAAAAAD5/wYAAAAAAAAAAAD5/wcAAAAAAAAAAAD4/wYAAAAAAAAAAAD4/wUAAAAAAAAAAAD4/wQAAAAAAAAAAAADAPr/AAAAAAAAAAADAPv/AAAAAAAAAAADAPz/AAAAAAAAAAADAP3/AAAAAAAAAAADAP7/AAAAAAAAAAADAP//AAAAAAAAAAADAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAEAP//AAAAAAAAAAAEAP7/AAAAAAAAAAAEAP3/AAAAAAAAAAAEAPz/AAAAAAAAAAAEAPv/AAAAAAAAAAAFAP3/AAAAAAAAAAAFAP7/AAAAAAAAAAAFAP//AAAAAAAAAAAFAAAAAAAAAAAAAAAFAPz/AAAAAAAAAAADAAUAAAAAAAAAAAA=")
+tile_set = ExtResource("13_r6p65")
+
+[node name="HighlightLayer" type="TileMapLayer" parent="TilemapLayers" groups=["Tilemap"]]
+tile_map_data = PackedByteArray("AAD8/wMAAQAAAAAAAAD9/wMAAQAAAAAAAAD+/wMAAQAAAAAAAAD//wMAAQAAAAAAAAD//wIAAQAAAAAAAAAEAP7/AQACAAAAAAAEAP//AQACAAAAAAAEAAAAAQACAAAAAAAEAAEAAQACAAAAAAAEAAIAAQACAAAAAAD8//z/AQADAAAAAAD9//z/AQADAAAAAAD+//z/AQADAAAAAAD///z/AQADAAAAAAAAAPz/AQADAAAAAAABAPz/AQADAAAAAAA=")
+tile_set = ExtResource("13_r6p65")
+
+[node name="ObjectLayer" type="TileMapLayer" parent="TilemapLayers" groups=["Tilemap"]]
+tile_set = ExtResource("13_r6p65")
+
+[node name="EntityManager" type="Node" parent="."]
+script = ExtResource("5_rt2n2")

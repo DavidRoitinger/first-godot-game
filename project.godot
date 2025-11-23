@@ -22,6 +22,9 @@ project/assembly_name="First Godot Game"
 [global_group]
 
 Player=""
+Tilemap=""
+Enemy=""
+Entity=""
 
 [input]
 

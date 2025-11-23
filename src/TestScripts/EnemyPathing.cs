@@ -13,7 +13,8 @@ public partial class EnemyPathing : CharacterBody2D
 	public override void _Ready()
 	{
 		targetNode = GetTree().GetFirstNodeInGroup("Player") as Node2D ?? this;
-		navigationAgent = GetChildren().OfType<NavigationAgent2D>().First();
+		navigationAgent = GetChildren().OfType<CollisionShape2D>().First().GetChildren().OfType<NavigationAgent2D>().First();
+		
 
 	}
 
