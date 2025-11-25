@@ -12,7 +12,7 @@ public partial class HorseAction : EntityAction, IEntityMove
         var distance = ownEntityStats.GridPosition.DistanceTo(
             allEntityStats.First(eS => eS.EntityType == EntityStats.Type.Player)
                 .GridPosition);
-
+        
         if (distance < 4) return;
         await base.Move(ownEntityStats, allEntityStats);
     }

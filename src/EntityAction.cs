@@ -39,10 +39,24 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
         await Task.Delay(500);
         
 
-        Vector2I closestAttackPosition = FindClosestToPlayer(allEntityStats, possibleAttackOrigins);
+        Vector2I? closestAttackPosition = FindClosestToPlayer(allEntityStats, possibleAttackOrigins);
 
-        List<Vector2I> attackedTiles = await FireAttack(closestAttackPosition, attack);
+        if(!closestAttackPosition.HasValue) return;
         
+        List<Vector2I> attackedTiles = await FireAttack(closestAttackPosition.Value, attack);
+        
+        DistributeDamage(ownEntityStats, allEntityStats, attackedTiles, attack);
+        
+    }
+
+    protected static void DistributeDamage(EntityStats ownEntityStats, List<EntityStats> allEntityStats, List<Vector2I> attackedTiles, Attack attack)
+    {
+        allEntityStats
+            .Where(stats => 
+                stats.EntityType != ownEntityStats.EntityType && 
+                attackedTiles.Contains(stats.GridPosition))
+            .ToList()
+            .ForEach(hitEntityStats => hitEntityStats.TakeDamage(attack.Damage));
     }
 
     protected async Task<List<Vector2I>> FireAttack(Vector2I attackPosition, Attack attack)
@@ -94,7 +108,7 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
         return possibleAttackOrigins;
     }
 
-    protected List<Vector2I> FindValueInPattern(List<List<int>> pattern, int value)
+    protected static List<Vector2I> FindValueInPattern(List<List<int>> pattern, int value)
     {
         List<Vector2I> foundCoordinates = [];
         for (int x = 0; x < pattern.Count; x++)
@@ -137,7 +151,7 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
 
     protected void MoveStep(EntityStats ownEntityStats,  List<EntityStats> allEntityStats)
     {
-        List<Vector2I> moveOptions = new List<Vector2I>();
+        List<Vector2I> moveOptions = [];
 		
         for (int x = ownEntityStats.GridPosition.X - 1; x <= ownEntityStats.GridPosition.X + 1; x++)
         {
@@ -147,7 +161,7 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
 				
                 if(pos == ownEntityStats.GridPosition) continue; // Starting Tile
                 if(GroundLayer.GetCellTileData(pos) == null) continue; // Empty Tile
-                if(allEntityStats.Count(eS => eS.GridPosition == pos) > 0) continue; // Used Tile
+                if(allEntityStats.Any(eS => eS.GridPosition == pos)) continue; // Used Tile
 				
                 moveOptions.Add(pos);
 				
@@ -156,10 +170,13 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
             }
         }
 		
-        ownEntityStats.GridPosition = FindClosestToPlayer(allEntityStats, moveOptions);
+        GD.Print(ownEntityStats.GridPosition);
+        
+        
+        ownEntityStats.GridPosition = FindClosestToPlayer(allEntityStats, moveOptions) ?? ownEntityStats.GridPosition;
     }
 
-    protected Vector2I FindClosestToPlayer(List<EntityStats> allEntityStats, List<Vector2I> tiles)
+    protected static Vector2I? FindClosestToPlayer(List<EntityStats> allEntityStats, List<Vector2I> tiles)
     {
          return tiles.OrderBy(
             pos => 
@@ -167,7 +184,7 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
                     allEntityStats.First(eS => 
                             eS.EntityType == EntityStats.Type.Player)
                         .GridPosition)
-                ).First();
+                ).FirstOrDefault();
     }
 
     public void Die(EntityStats entityStats)

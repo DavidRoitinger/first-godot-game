@@ -27,6 +27,8 @@ public partial class PlayerAction : EntityAction, IEntityMove , IEntityAttack
         
         List<Vector2I> attackedTiles = await FireAttack(currentMousePosition, attack);
         
+        DistributeDamage(ownEntityStats, allEntityStats, attackedTiles, attack);
+        
         await Task.Delay(2000);
     }
 

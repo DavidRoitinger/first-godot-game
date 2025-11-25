@@ -3,12 +3,13 @@ using System.Linq;
 using Godot;
 
 namespace FirstGodotGame;
-
+[Tool]
 public partial class EntityStats : Node
 {
     [Export] public string EntityName { get; set; }
 
     private Vector2I _gridPosition;
+    
     [Export]
     public Vector2I GridPosition
     {
