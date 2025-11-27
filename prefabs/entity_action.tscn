@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://d1jqwu8w0gxvg"]
 
 [ext_resource type="Script" uid="uid://dw87ck7kjiaib" path="res://src/HorseAction.cs" id="1_0j5mc"]
-[ext_resource type="Script" uid="uid://bcj0kn7emt0o6" path="res://src/Attacks/EnemyAttack/HorseAttack.cs" id="2_wf6wk"]
+[ext_resource type="Script" uid="uid://bcj0kn7emt0o6" path="res://src/Attacks/HorseAttack.cs" id="2_wf6wk"]
 
 [node name="EntityAction" type="Node"]
 script = ExtResource("1_0j5mc")

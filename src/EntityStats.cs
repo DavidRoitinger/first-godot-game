@@ -6,7 +6,17 @@ namespace FirstGodotGame;
 [Tool]
 public partial class EntityStats : Node
 {
-    [Export] public string EntityName { get; set; }
+    private string _entityName;
+    [Export]
+    public string EntityName
+    {
+        get => _entityName;
+        set => _entityName = value;
+        // var bar = GetParent()
+        //     ?.GetNode<ProgressBar>("Control/ProgressBar");
+        //
+        // if(bar == null) return;
+    }
 
     private Vector2I _gridPosition;
     
@@ -18,16 +28,16 @@ public partial class EntityStats : Node
         {
             _gridPosition = value;
             
-            GetParent<Node2D>()
-                ?.SetPosition(
-                    GetTree()
-                        .GetNodesInGroup("Tilemap")
-                        .OfType<TileMapLayer>()
-                        .First(node => node.Name == "GroundLayer")
-                        .MapToLocal(_gridPosition));
-          
-     
- 
+            if (IsInsideTree() && GetTree().HasGroup("Tilemap")) // copyright armin[MIT License], Valveλ
+                GetParent<Node2D>()
+                    ?.SetPosition(
+                        GetTree()
+                            .GetNodesInGroup("Tilemap")
+                            .OfType<TileMapLayer>()
+                            .First(node => node.Name == "GroundLayer")
+                            .MapToLocal(_gridPosition));
+         
+
         }
     }
 
@@ -37,7 +47,24 @@ public partial class EntityStats : Node
     }
 
 
-    [Export] public int MaxHealth { get; set; }
+    private int _maxHealth;
+    [Export] public int MaxHealth
+    {
+        get => _maxHealth;
+        set
+        {
+            _maxHealth = value;
+            
+            var bar = GetParent()
+                ?.GetNode<ProgressBar>("Control/ProgressBar");
+            
+            if(bar == null) return;
+            bar.MaxValue = MaxHealth;
+
+            
+        }
+        
+    }
     
     private int _health;
     [Export] public int Health {
@@ -45,6 +72,12 @@ public partial class EntityStats : Node
         set
         {
             _health = value;
+
+            var bar = GetParent()
+                ?.GetNode<ProgressBar>("Control/ProgressBar");
+            
+            if(bar == null) return;
+            bar.Value = _health;
             
             if (_health <= 0) (GetParent().GetChildren().FirstOrDefault(x => x is IEntityDie) as IEntityDie)?.Die(this);
         }

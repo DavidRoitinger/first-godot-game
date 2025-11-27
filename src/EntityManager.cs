@@ -21,11 +21,7 @@ public partial class EntityManager : Node
 
 	public override void _Ready()
 	{
-		_entities = GetTree().GetNodesInGroup("Entity")
-			.Select(node => node.GetChildren()
-				.First(childNode => childNode.Name == "EntityStats")
-				as EntityStats
-			).ToList();
+		LoadEntities();
 		
 		_groundLayer = GetTree().GetNodesInGroup("Tilemap").First(node => node.Name == "GroundLayer") as TileMapLayer;
 		_highlightLayer = GetTree().GetNodesInGroup("Tilemap").First(node => node.Name == "HighlightLayer") as TileMapLayer;
@@ -37,8 +33,9 @@ public partial class EntityManager : Node
 		// 	.Select(x => x.GetParent() as Node2D)
 		// 	.ToArray();
 		
-		Task.Run(GameLoop);
+		_ = GameLoop();
 	}
+
 
 	private async Task GameLoop()
 	{
@@ -62,6 +59,19 @@ public partial class EntityManager : Node
 	private void StartTurn()
 	{
 		_highlightLayer.Clear();
+		LoadEntities();
+
+		if (!_entities.Any(x => x.EntityType == EntityStats.Type.Player && x.Health > 0))
+		{
+			//Looose
+			SceneManager.Instance.ReloadCurrentLevel();
+		}
+		if(!_entities.Any(x => x.EntityType == EntityStats.Type.Enemy && x.Health > 0))
+		{
+			//Win
+			SceneManager.Instance.LoadNextLevel();
+		}
+		
 
 		// if (_entities[_turnIndex].EntityType != EntityStats.Type.Player)
 		// {
@@ -88,6 +98,7 @@ public partial class EntityManager : Node
 	
 	private async Task EntityTurn(EntityStats entity)
 	{
+		
 		//Enemy logic...
 		GD.Print($"Entity Turn! {_entities[_turnIndex].EntityName} ?");
 
@@ -99,4 +110,14 @@ public partial class EntityManager : Node
 		
 		await (entityAttack?.Attack(entity, _entities)?? Task.CompletedTask);
 	}
+	
+	private void LoadEntities()
+	{
+		_entities = GetTree().GetNodesInGroup("Entity")
+			.Select(node => node.GetChildren()
+					.First(childNode => childNode.Name == "EntityStats")
+				as EntityStats
+			).ToList();
+	}
+
 }

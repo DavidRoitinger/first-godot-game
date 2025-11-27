@@ -1,6 +1,6 @@
 using Godot;
 
-namespace FirstGodotGame.Attacks.EnemyAttack;
+namespace FirstGodotGame.Attacks;
 
 public partial class HorseAttack: Node, IAttack
 {
@@ -9,6 +9,7 @@ public partial class HorseAttack: Node, IAttack
         
         return new Attack
         {
+            Name = "Launcher",
             Damage = 1,
             OriginPattern = [
                 [2,2,2,2,2,2,2],

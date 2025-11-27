@@ -14,7 +14,9 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
     {
         get
         {
-            _groundLayer ??= GetTree().GetNodesInGroup("Tilemap").First(node => node.Name == "GroundLayer") as TileMapLayer;
+            _groundLayer ??= GetTree()
+                .GetNodesInGroup("Tilemap")
+                .First(node => node.Name == "GroundLayer") as TileMapLayer;
             return _groundLayer;
         }
     }
@@ -23,8 +25,30 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
     {
         get
         {
-            _highlightLayer ??= GetTree().GetNodesInGroup("Tilemap").First(node => node.Name == "HighlightLayer") as TileMapLayer;
+            _highlightLayer ??= GetTree()
+                .GetNodesInGroup("Tilemap")
+                .First(node => node.Name == "HighlightLayer") as TileMapLayer;
             return _highlightLayer;
+        }
+    }
+    
+    private List<Attack> _attacks;
+    public List<Attack> Attacks
+    {
+        get
+        {
+            if (_attacks != null) return _attacks;
+            
+            _attacks = GetChildren()
+                .Where(x => x is IAttack)
+                .Select(x => ((IAttack)x).GetAttack())
+                .ToList();
+            _attacks.AddRange(GetChildren()
+                .Where(x => x is IAttacks)
+                .Select(x => ((IAttacks)x).GetAttacks())
+                .Aggregate(new List<Attack>(),(x1, x2) => [..x1,..x2]));
+            _attacks = _attacks.OrderBy(x => x.Name).ToList();
+            return _attacks;
         }
     }
 
@@ -34,7 +58,10 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
     {
         var attack = GetRandomAttack();
 
-        var possibleAttackOrigins = await HighlightPossibleOrigins(ownEntityStats, attack);
+        var possibleAttackOrigins = await HighlightPattern(
+            ownEntityStats.GridPosition,
+            attack.OriginPattern,
+            new Vector2I(1, 0));
         
         await Task.Delay(500);
         
@@ -77,31 +104,28 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
 
     protected Attack GetRandomAttack()
     {
-        //Todo:Make Random?
-        
-        var attacks = GetAttacks();
-
-        var attack = attacks.First();
+        var rand = GD.RandRange(0, Attacks.Count-1);
+        var attack = Attacks[rand];
         return attack;
     }
 
-    protected async Task<List<Vector2I>> HighlightPossibleOrigins(EntityStats ownEntityStats, Attack attack)
+    protected async Task<List<Vector2I>> HighlightPattern(Vector2I gridPosition, List<List<int>> pattern, Vector2I markerAtlasCoords)
     {
 
-        var attackOrigin = FindValueInPattern(attack.OriginPattern, AOR).First();
+        var attackOrigin = FindValueInPattern(pattern, AOR).First();
 
         HighlightLayer.Clear();
 
         List<Vector2I> possibleAttackOrigins = new List<Vector2I>();
 
-        foreach (var coordinate in FindValueInPattern(attack.OriginPattern, AOE))
+        foreach (var coordinate in FindValueInPattern(pattern, AOE))
         {
-            var atkPos = coordinate - attackOrigin + ownEntityStats.GridPosition;
+            var atkPos = coordinate - attackOrigin + gridPosition;
                 
             if (GroundLayer.GetCellTileData(atkPos) == null) continue;
                 
             possibleAttackOrigins.Add(atkPos);
-            HighlightLayer.SetCell(atkPos, 1, new Vector2I(1,0));
+            HighlightLayer.SetCell(atkPos, 1, markerAtlasCoords);
             await Task.Delay(10);
         }
 
@@ -124,18 +148,7 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
         return foundCoordinates;
     }
 
-    protected List<Attack> GetAttacks()
-    {
-        List<Attack> attacks = GetChildren()
-            .Where(x => x is IAttack)
-            .Select(x => ((IAttack)x).GetAttack())
-            .ToList();
-        attacks.AddRange(GetChildren()
-            .Where(x => x is IAttacks)
-            .Select(x => ((IAttacks)x).GetAttacks())
-            .Aggregate(new List<Attack>(),(x1, x2) => [..x1,..x2]));
-        return attacks;
-    }
+
 
 
     public async Task Move(EntityStats ownEntityStats, List<EntityStats> allEntityStats)
@@ -178,13 +191,15 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
 
     protected static Vector2I? FindClosestToPlayer(List<EntityStats> allEntityStats, List<Vector2I> tiles)
     {
-         return tiles.OrderBy(
+         return tiles.MinBy(
             pos => 
                 pos.DistanceTo(
-                    allEntityStats.First(eS => 
-                            eS.EntityType == EntityStats.Type.Player)
+                    allEntityStats
+                        .Where(eS => 
+                            eS.EntityType == EntityStats.Type.Player && eS.Health > 0)
+                        .MinBy(eS => pos.DistanceTo(eS.GridPosition))
                         .GridPosition)
-                ).FirstOrDefault();
+                );
     }
 
     public void Die(EntityStats entityStats)
@@ -193,6 +208,7 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
         if (GetParent().GetChildren().FirstOrDefault(x => x is Sprite2D) is Sprite2D sprite)
         {
             sprite.RotationDegrees = 90;
+
         }
         
 
