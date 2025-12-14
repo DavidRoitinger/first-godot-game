@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://chowhdvjp8c17"]
+
+[ext_resource type="Script" uid="uid://bnav2sqo58bsd" path="res://src/managers/SoundManager.cs" id="1_imb8a"]
+
+[node name="SoundManager" type="Node" node_paths=PackedStringArray("MusicPlayer", "SfxPlayer")]
+script = ExtResource("1_imb8a")
+MusicPlayer = NodePath("Music")
+SfxPlayer = NodePath("Sfx")
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+bus = &"Music"
+
+[node name="Sfx" type="AudioStreamPlayer" parent="."]
+bus = &"Sfx"

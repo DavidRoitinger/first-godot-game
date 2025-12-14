@@ -9,4 +9,7 @@
     <Content Include="src\shaders\test.gdshader" />
     <Content Include="src\shaders\test.gdshader.uid" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\Attacks\" />
+  </ItemGroup>
 </Project>
