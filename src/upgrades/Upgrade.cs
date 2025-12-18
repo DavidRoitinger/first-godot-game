@@ -2,20 +2,20 @@ using Godot;
 
 namespace FirstGodotGame;
 
-public abstract partial class Upgrade : Resource
+public abstract partial class Upgrade
 {
-    [Export] public string Name { get; set; }
-    [Export] public string Description { get; set; }
-    [Export] public Texture Icon { get; set; }
-    [Export] public Quality UpgradeQuality { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public Texture Icon { get; set; }
+    public Quality UpgradeQuality { get; set; }
     
     public abstract void ApplyUpgrade(EntityStats playerStats);
     
 
     public enum Quality
     {
-        Ass,
         Common,
-        Cool
+        Strange,
+        Bizarre
     }
 }

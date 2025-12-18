@@ -50,7 +50,7 @@ public partial class PlayerAction : EntityAction, IEntityMove, IEntityAttack
             if (input == "Left")
             {
                 currentMousePosition = 
-                    GroundLayer.LocalToMap(GroundLayer.ToLocal(GetViewport().GetCamera2D().GetGlobalMousePosition())); 
+                    _groundLayer.LocalToMap(_groundLayer.ToLocal(GetViewport().GetCamera2D().GetGlobalMousePosition())); 
                 if (possibleAttackOrigins.Contains(currentMousePosition)) break;
             }
             else if (input == "Right")
@@ -78,6 +78,7 @@ public partial class PlayerAction : EntityAction, IEntityMove, IEntityAttack
             SoundManager.Instance.PlaySfx(SoundManager.Miss);
         }
         
+        ownEntityStats.PlayAnimation("Action");
 
         await Task.Delay(2000/TurnSkipper.SpeedUpTurn);
     }
@@ -93,13 +94,14 @@ public partial class PlayerAction : EntityAction, IEntityMove, IEntityAttack
     public new async Task Move(EntityStats ownEntityStats, List<EntityStats> allEntityStats)
     {
         var possibleMovePositions =
-            GetPossibleMovePositions(ownEntityStats.Speed, ownEntityStats.GridPosition, false).ToList();
+            GetPossibleMovePositions(ownEntityStats.Speed, ownEntityStats.GridPosition, false)
+                .Where(x => allEntityStats.Count(eS => eS.GridPosition == x) == 0)
+                .ToList();
 
         foreach (var possibleMovePosition in possibleMovePositions)
         {
-            if (allEntityStats.Count(eS => eS.GridPosition == possibleMovePosition) > 0) continue;
             await Task.Delay(10/TurnSkipper.SpeedUpTurn);
-            HighlightLayer.SetCell(possibleMovePosition, 1, new Vector2I(1, 0));
+            _highlightLayer.SetCell(possibleMovePosition, 1, new Vector2I(1, 0));
         }
 
         while (true)
@@ -107,15 +109,14 @@ public partial class PlayerAction : EntityAction, IEntityMove, IEntityAttack
             if(await WaitForAction() != "Left") continue;
             
             var currentMousePosition =
-                GroundLayer.LocalToMap(GroundLayer.ToLocal(GetViewport().GetCamera2D().GetGlobalMousePosition()));
-
+                _groundLayer.LocalToMap(_groundLayer.ToLocal(GetViewport().GetCamera2D().GetGlobalMousePosition()));
             if (possibleMovePositions.Contains(currentMousePosition))
             {
                 ownEntityStats.GridPosition = currentMousePosition;
                 break;
             }
         }
-
+        
         await Task.Delay(2000/TurnSkipper.SpeedUpTurn);
     }
 
@@ -139,7 +140,7 @@ public partial class PlayerAction : EntityAction, IEntityMove, IEntityAttack
 
         CursorLayer.Clear();
         
-        if (GroundLayer.GetCellTileData(gridPosition) == null) return;
+        if (_groundLayer.GetCellTileData(gridPosition) == null) return;
         if (!originPattern
             .Contains(gridPosition)) return;
 
@@ -148,7 +149,7 @@ public partial class PlayerAction : EntityAction, IEntityMove, IEntityAttack
                      ..FindValueInPattern(pattern, NO)])
         {
             var atkPos = coordinate - attackOrigin + gridPosition;
-            if (GroundLayer.GetCellTileData(atkPos) == null) continue;
+            if (_groundLayer.GetCellTileData(atkPos) == null) continue;
             CursorLayer.SetCell(atkPos, 1, markerAtlasCoords);
         }
     }
@@ -174,10 +175,10 @@ public partial class PlayerAction : EntityAction, IEntityMove, IEntityAttack
         {
             _rClickTcs?.TrySetResult(true);
         }
-        else if (@event is InputEventMouseMotion mouseEvent && _currentAttack != null)
+        else if (@event is InputEventMouseMotion && _currentAttack != null)
         {
             PreviewPattern(
-                CursorLayer.LocalToMap(GroundLayer.ToLocal(GetViewport().GetCamera2D().GetGlobalMousePosition())),
+                CursorLayer.LocalToMap(_groundLayer.ToLocal(GetViewport().GetCamera2D().GetGlobalMousePosition())),
                 new Vector2I(0, 0));
         }
     }

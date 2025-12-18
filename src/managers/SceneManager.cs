@@ -8,18 +8,19 @@ namespace FirstGodotGame;
 
 public partial class SceneManager: Node
 {
-    private int _currentLevelIndex = 0;
-    private readonly List<string> _levels =
-    [
-        "main_scene",
-        "main_scene",
-        "main_scene",
-        "test",
-        "test",
-        "test",
-        "main_scene",
-        "test",
-    ];
+
+    // private readonly List<string> _levels =
+    // [
+    //     "worlds/1_a/1_a_1",
+    //     "worlds/1_a/1_a_2",
+    //     "worlds/1_a/1_a_3",
+    //     "worlds/1_a/1_a_4",
+    //     "test"
+    // ];
+    
+    // private Dictionary<string, int> _levels = new Dictionary<string, int>({
+    //     { "1_a", 2 }
+    // });
     
     private AnimationPlayer _transitionAnimationPlayer;
     
@@ -46,8 +47,23 @@ public partial class SceneManager: Node
     
     public async Task LoadNextLevel(int count = 1)
     {
-        _currentLevelIndex = Math.Min(_currentLevelIndex + count, _levels.Count - 1);
-        await LoadScene(_levels[_currentLevelIndex]);
+        var worldMap = WorldMap.Instance;
+        if ((worldMap.LevelIndex + count) >= worldMap.GetActiveWorld().LevelCount)
+        {
+            //Todo: World selection comes here...
+            worldMap.ActiveWorldId = worldMap.GetActiveWorld().NextWorld[0];
+            worldMap.LevelIndex = 0;
+        }
+        else
+        {
+            worldMap.LevelIndex += count;
+        }
+
+        string levelPath = $"worlds/{worldMap.ActiveWorldId}/{worldMap.ActiveWorldId}_{worldMap.LevelIndex}";
+        
+        GD.Print(levelPath);
+        
+        await LoadScene(levelPath);
     }
     public async Task ReloadCurrentLevel()
     {
@@ -59,7 +75,13 @@ public partial class SceneManager: Node
     }
     public async Task LoadPreviousLevel(int count = 1)
     {
-        _currentLevelIndex = Math.Max(_currentLevelIndex - count, 0);
-        await LoadScene(_levels[_currentLevelIndex]);
+        var worldMap = WorldMap.Instance;
+        worldMap.LevelIndex = Math.Max(worldMap.LevelIndex - count, 0);
+        
+        string levelPath = $"worlds/{worldMap.ActiveWorldId}/{worldMap.ActiveWorldId}_{worldMap.LevelIndex}";
+        
+        GD.Print(levelPath);
+        
+        await LoadScene(levelPath);
     }
 }

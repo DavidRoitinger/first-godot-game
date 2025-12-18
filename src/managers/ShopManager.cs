@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Godot;
+
 
 namespace FirstGodotGame;
 
@@ -15,7 +15,12 @@ public partial class ShopManager : CanvasLayer
     public override void _Ready()
     {
         Instance = this;
+        _animationPlayer = GetChildren().OfType<AnimationPlayer>().First();
     }
+    
+    private AnimationPlayer _animationPlayer;
+
+    [Export] public Godot.Collections.Dictionary<Upgrade.Quality, Theme> UpgradeThemes;
 
     private Upgrade _selectedUpgrade;
     private CanvasItem _itemContainer;
@@ -27,17 +32,22 @@ public partial class ShopManager : CanvasLayer
 
     public async Task OpenShop()
     {
-        Visible = true;
-        
         LoadProperties();
 
         PopulatePlayerContainer();
         PopulateItemContainer();
         PopulateRerollContainer();
+        Visible = true;
+        
+        _animationPlayer.Play("Open");
+        await ToSignal(_animationPlayer, "animation_finished");
+        
 
         await _upgradeSelected.Task;
         
         //Close Shop...
+        _animationPlayer.PlayBackwards("Open");
+        await ToSignal(_animationPlayer, "animation_finished");
         Visible = false;
         ClearContainer(_itemContainer);
         ClearContainer(_playerContainer);
@@ -57,7 +67,7 @@ public partial class ShopManager : CanvasLayer
 
     private void PopulateItemContainer()
     {
-        var upgrades = GetRandomUpgrades();
+        var upgrades = GetRandomUpgrades(3);
 
 
         foreach (var upgrade in upgrades)
@@ -70,13 +80,7 @@ public partial class ShopManager : CanvasLayer
             };
             button.Pressed += () => UpgradeButton(upgrade);
 
-            //Todo:Set Color...
-            
-            // switch (upgrade.UpgradeQuality)
-            // {
-            //     case Upgrade.Quality.Common:
-            //         
-            // }
+            button.Theme = UpgradeThemes[upgrade.UpgradeQuality];
             
             _itemContainer.AddChild(button); 
             
@@ -102,11 +106,42 @@ public partial class ShopManager : CanvasLayer
         }
     }
 
-    private Upgrade[] GetRandomUpgrades()
+    private List<Upgrade> GetRandomUpgrades(int count)
     {
         var rand = new Random();
-        var upgrades = rand.GetItems(new ReadOnlySpan<Upgrade>(UpgradePool.Instance.CommonUpgradePool.ToArray()), 3);
-        return upgrades;
+
+        List<Upgrade> shopUpgrades = [];
+
+        for (int i = 0; i < count; i++)
+        {
+            float num = rand.NextSingle();
+            if (num <= 0.65)
+            {
+                //common
+                shopUpgrades.Add(GetRandomUnpickedUpgrade(shopUpgrades, UpgradePool.Instance.CommonUpgradePool));
+            }else if (num <= 0.85)
+            {
+                //strange
+                shopUpgrades.Add(GetRandomUnpickedUpgrade(shopUpgrades, UpgradePool.Instance.StrangeUpgradePool));
+            }else
+            {
+                //bizarre
+                shopUpgrades.Add(GetRandomUnpickedUpgrade(shopUpgrades, UpgradePool.Instance.BizarreUpgradePool));
+            }
+        }
+        
+        //var upgrades = rand.GetItems(new ReadOnlySpan<Upgrade>(UpgradePool.Instance.CommonUpgradePool.ToArray()), 3);
+        return shopUpgrades;
+    }
+
+    private Upgrade GetRandomUnpickedUpgrade(List<Upgrade> pickedUpgrades, List<Upgrade> upgradePool)
+    {
+        Random rand = new Random();
+        var unpickedUpgrades = upgradePool
+            .Where(x => !pickedUpgrades.Contains(x))
+            .ToList();
+                
+        return unpickedUpgrades[rand.Next(unpickedUpgrades.Count)];
     }
 
     private void PopulatePlayerContainer()

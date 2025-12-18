@@ -11,24 +11,22 @@ config_version=5
 [application]
 
 config/name="First Godot Game"
-run/main_scene="uid://bhasarf4km7cm"
+run/main_scene="uid://dpsjng8wqfen"
 config/features=PackedStringArray("4.5", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
-PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
 SceneTransition="*res://prefabs/Globals/scene_transition.tscn"
 SoundManager="*res://prefabs/Globals/sound_manager.tscn"
 UpgradeShop="*res://prefabs/Globals/upgrade_shop.tscn"
+SpeedUp="*res://prefabs/Globals/speed_up.tscn"
+EntityManager="*res://prefabs/Globals/entity_manager.tscn"
+CameraManager="*res://prefabs/Globals/camera_manager.tscn"
 
 [dotnet]
 
 project/assembly_name="First Godot Game"
-
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/phantom_camera/plugin.cfg")
 
 [global_group]
 
@@ -93,5 +91,3 @@ Turn_Speed_Up={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"

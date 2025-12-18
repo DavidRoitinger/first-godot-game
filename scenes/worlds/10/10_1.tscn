@@ -1,0 +1,103 @@
+[gd_scene load_steps=9 format=4 uid="uid://bpjb468kps8y7"]
+
+[ext_resource type="Shader" uid="uid://cqqokul14psc" path="res://src/shaders/test.gdshader" id="2_4els3"]
+[ext_resource type="PackedScene" uid="uid://dqdm118llup3x" path="res://prefabs/entities/player.tscn" id="3_52mi5"]
+[ext_resource type="PackedScene" uid="uid://cghyuac40ovqb" path="res://prefabs/entities/basic_enemy.tscn" id="5_55aya"]
+[ext_resource type="TileSet" uid="uid://cgglo8ysjk0tk" path="res://prefabs/tilesets/Tileset.tres" id="6_u27kc"]
+[ext_resource type="Script" uid="uid://bmit0ga5dsfe7" path="res://src/managers/LevelSetup.cs" id="11_56adh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2v6ot"]
+resource_local_to_scene = true
+shader = ExtResource("2_4els3")
+shader_parameter/flashColor = Color(1, 1, 1, 1)
+shader_parameter/flashIntensity = 0.0
+shader_parameter/colorR = 1.0
+shader_parameter/colorG = 0.0
+shader_parameter/colorB = 1.0
+shader_parameter/colorA = 1.0
+shader_parameter/frequency = 10.0
+shader_parameter/speed = 5.0
+shader_parameter/amplitude = 0.1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u3afu"]
+resource_local_to_scene = true
+shader = ExtResource("2_4els3")
+shader_parameter/flashColor = Color(1, 1, 1, 1)
+shader_parameter/flashIntensity = 0.0
+shader_parameter/colorR = 1.0
+shader_parameter/colorG = 0.0
+shader_parameter/colorB = 1.0
+shader_parameter/colorA = 1.0
+shader_parameter/frequency = 10.0
+shader_parameter/speed = 5.0
+shader_parameter/amplitude = 0.1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_52mi5"]
+resource_local_to_scene = true
+shader = ExtResource("2_4els3")
+shader_parameter/flashColor = Color(1, 1, 1, 1)
+shader_parameter/flashIntensity = 0.0
+shader_parameter/colorR = 1.0
+shader_parameter/colorG = 0.0
+shader_parameter/colorB = 1.0
+shader_parameter/colorA = 1.0
+shader_parameter/frequency = 10.0
+shader_parameter/speed = 5.0
+shader_parameter/amplitude = 0.1
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Entities" type="Node2D" parent="."]
+
+[node name="Player" parent="Entities" instance=ExtResource("3_52mi5")]
+position = Vector2(-112, 72)
+
+[node name="PlayerSprite" parent="Entities/Player" index="0"]
+material = SubResource("ShaderMaterial_2v6ot")
+
+[node name="EntityStats" parent="Entities/Player" index="1"]
+GridPosition = Vector2i(0, 8)
+
+[node name="Player2" parent="Entities" instance=ExtResource("3_52mi5")]
+position = Vector2(112, 72)
+
+[node name="PlayerSprite" parent="Entities/Player2" index="0"]
+material = SubResource("ShaderMaterial_u3afu")
+
+[node name="EntityStats" parent="Entities/Player2" index="1"]
+GridPosition = Vector2i(7, 1)
+
+[node name="Player3" parent="Entities" instance=ExtResource("3_52mi5")]
+position = Vector2(0, 80)
+
+[node name="PlayerSprite" parent="Entities/Player3" index="0"]
+material = SubResource("ShaderMaterial_52mi5")
+
+[node name="EntityStats" parent="Entities/Player3" index="1"]
+EntityName = "Player3"
+GridPosition = Vector2i(4, 5)
+
+[node name="TilemapLayers" type="Node2D" parent="."]
+
+[node name="GroundLayer" type="TileMapLayer" parent="TilemapLayers" groups=["Tilemap"]]
+tile_map_data = PackedByteArray("AAD9//7/AAAAAAAAAAD+////AAAAAAAAAAD//wAAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAIAAAAAAAAAAAD+//7/AAAAAAAAAAABAP7/AAAAAAAAAAAAAP//AAAAAAAAAAD+/wEAAAAAAAAAAAD9/wIAAAAAAAAAAAD9/wEAAAAAAAAAAAD9/wAAAAAAAAAAAAD9////AAAAAAAAAAD+/wAAAAAAAAAAAAD+/wIAAAAAAAAAAAD//wIAAAAAAAAAAAAAAAIAAAAAAAAAAAABAAEAAAAAAAAAAAABAAAAAAAAAAAAAAABAP//AAAAAAAAAAAAAAAAAAAAAAAAAAD//wEAAAAAAAAAAAD/////AAAAAAAAAAD///7/AAAAAAAAAAAAAP7/AAAAAAAAAAD7//z/AAAAAAAAAAD8//z/AAAAAAAAAAD9//z/AAAAAAAAAAD+//z/AAAAAAAAAAD///z/AAAAAAAAAAAAAPz/AAAAAAAAAAD7//3/AAAAAAAAAAD7//7/AAAAAAAAAAD7////AAAAAAAAAAD7/wAAAAAAAAAAAAD7/wEAAAAAAAAAAAD+/wQAAAAAAAAAAAD//wQAAAAAAAAAAAD//wUAAAAAAAAAAAAAAAQAAAAAAAAAAAABAAQAAAAAAAAAAAACAAQAAAAAAAAAAAD+/wUAAAAAAAAAAAAAAAUAAAAAAAAAAAABAAUAAAAAAAAAAAACAAUAAAAAAAAAAAADAAMAAAAAAAAAAAADAAIAAAAAAAAAAAADAAEAAAAAAAAAAAADAAAAAAAAAAAAAAADAP//AAAAAAAAAAAEAP//AAAAAAAAAAAEAAAAAAAAAAAAAAAEAAEAAAAAAAAAAAAEAAIAAAAAAAAAAAAEAAMAAAAAAAAAAAD//wcAAAAAAAAAAAAAAAcAAAAAAAAAAAABAAcAAAAAAAAAAAD//wgAAAAAAAAAAAAAAAgAAAAAAAAAAAABAAgAAAAAAAAAAAAGAAAAAAAAAAAAAAAGAAEAAAAAAAAAAAAGAAIAAAAAAAAAAAAHAAIAAAAAAAAAAAAHAAEAAAAAAAAAAAAHAAAAAAAAAAAAAAD7//v/AAAAAAAAAAD7//r/AAAAAAAAAAAAAPv/AAAAAAAAAAAAAPr/AAAAAAAAAAD+//r/AAAAAAAAAAD///r/AAAAAAAAAAD///v/AAAAAAAAAAD+//v/AAAAAAAAAAD9//v/AAAAAAAAAAD8//v/AAAAAAAAAAD8//r/AAAAAAAAAAD9//r/AAAAAAAAAAD6/wEAAAAAAAAAAAD5//z/AAAAAAAAAAD5//3/AAAAAAAAAAD5//7/AAAAAAAAAAD5////AAAAAAAAAAD6////AAAAAAAAAAD6/wAAAAAAAAAAAAD6//7/AAAAAAAAAAD6//3/AAAAAAAAAAD6//z/AAAAAAAAAAD6//v/AAAAAAAAAAD6//r/AAAAAAAAAAD5//r/AAAAAAAAAAD5//v/AAAAAAAAAAD//wYAAAAAAAMAAAD+/wMAAAAAAAMAAAAAAAMAAAAAAAMAAAD//wMAAAAAAAMAAAACAAEAAAACAAMAAAACAAAAAAACAAMAAAACAP//AAACAAMAAAAFAAAAAAACAAMAAAD8////AAACAAMAAAD8/wAAAAACAAMAAAD8//7/AAACAAMAAAD9//3/AAAAAAMAAAD+//3/AAAAAAMAAAD///3/AAAAAAMAAAD5/wEAAAAAAAAAAAD5/wAAAAAAAAAAAAADAAQAAAAAAAAAAAADAAUAAAAAAAAAAAAEAAUAAAAAAAAAAAAEAAQAAAAAAAAAAAADAAYAAAAAAAAAAAAEAAYAAAAAAAAAAAAFAAYAAAAAAAAAAAAFAAUAAAAAAAAAAAAFAAQAAAAAAAAAAAA=")
+tile_set = ExtResource("6_u27kc")
+
+[node name="HighlightLayer" type="TileMapLayer" parent="TilemapLayers" groups=["Tilemap"]]
+tile_set = ExtResource("6_u27kc")
+
+[node name="CursorLayer" type="TileMapLayer" parent="TilemapLayers" groups=["Tilemap"]]
+tile_set = ExtResource("6_u27kc")
+
+[node name="ObjectLayer" type="TileMapLayer" parent="TilemapLayers" groups=["Tilemap"]]
+tile_set = ExtResource("6_u27kc")
+
+[node name="LevelSetup" type="Node" parent="."]
+script = ExtResource("11_56adh")
+EnemyCount = 1
+Enemies = Array[PackedScene]([ExtResource("5_55aya")])
+SafetyRange = 4
+
+[editable path="Entities/Player"]
+[editable path="Entities/Player2"]
+[editable path="Entities/Player3"]

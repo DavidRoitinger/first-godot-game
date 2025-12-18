@@ -1,0 +1,17 @@
+[gd_resource type="StyleBoxFlat" format=3 uid="uid://bw60hl732pl4s"]
+
+[resource]
+bg_color = Color(0.4, 0.29803923, 0.24705882, 1)
+border_width_left = 75
+border_width_top = 100
+border_width_right = 75
+border_width_bottom = 100
+border_color = Color(0.2, 0.14117648, 0.11372549, 1)
+border_blend = true
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_size = 1
+anti_aliasing = false
+anti_aliasing_size = 10.0

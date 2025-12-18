@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Godot;
 
 namespace FirstGodotGame;
 
@@ -24,7 +23,7 @@ public class UpgradePool
         new StatUpgrade()
         {
             Name = "BasicSpeed",
-            Description = "Increases Speed",
+            Description = "Increases Speed by 1",
             UpgradeQuality = Upgrade.Quality.Common,
             AdditionalSpeed = 1,
         },
@@ -73,6 +72,57 @@ public class UpgradePool
                 1003,
             ]
         },
-        
+    ];
+    
+    public readonly List<Upgrade> StrangeUpgradePool =
+    [
+        new StatUpgrade()
+        {
+            Name = "BasicSpeed+",
+            Description = "Increases Speed by 2",
+            UpgradeQuality = Upgrade.Quality.Strange,
+            AdditionalSpeed = 2,
+        },
+        new StatUpgrade()
+        {
+            Name = "BasicAmor+",
+            Description = "Increases Armor by 2",
+            UpgradeQuality = Upgrade.Quality.Strange,
+            AdditionalArmor = 2,
+        },
+        new StatUpgrade()
+        {
+            Name = "BasicHealth+",
+            Description = "Increases Health by 2",
+            UpgradeQuality = Upgrade.Quality.Strange,
+            AdditionalMaxHealth = 2,
+        },
+
+    ];
+    
+    public readonly List<Upgrade> BizarreUpgradePool =
+    [
+        new StatUpgrade()
+        {
+            Name = "BasicSpeed++",
+            Description = "Increases Speed by 3",
+            UpgradeQuality = Upgrade.Quality.Bizarre,
+            AdditionalSpeed = 3,
+        },
+        new StatUpgrade()
+        {
+            Name = "BasicAmor++",
+            Description = "Increases Armor by 3",
+            UpgradeQuality = Upgrade.Quality.Bizarre,
+            AdditionalArmor = 3,
+        },
+        new StatUpgrade()
+        {
+            Name = "BasicHealth++",
+            Description = "Increases Health by 3",
+            UpgradeQuality = Upgrade.Quality.Bizarre,
+            AdditionalMaxHealth = 3,
+        },
+
     ];
 }

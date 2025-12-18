@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://ccwxbgd72pf3q"]
+
+[ext_resource type="Script" uid="uid://cdyp6yl32lkyc" path="res://src/managers/CameraManager.cs" id="1_jjn87"]
+
+[node name="Camera2D" type="Camera2D"]
+zoom = Vector2(2, 2)
+script = ExtResource("1_jjn87")
+Speed = 300.0

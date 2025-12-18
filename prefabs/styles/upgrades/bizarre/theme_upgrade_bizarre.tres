@@ -1,0 +1,14 @@
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://kw2xyf6bt2i3"]
+
+[ext_resource type="StyleBox" uid="uid://cvwyary33w4av" path="res://prefabs/styles/upgrades/bizarre/style_upgrade_bizarre_disabled.tres" id="1_wwrnk"]
+[ext_resource type="StyleBox" uid="uid://clqpff11pf0ps" path="res://prefabs/styles/upgrades/bizarre/style_upgrade_bizarre_focus.tres" id="2_3da3m"]
+[ext_resource type="StyleBox" uid="uid://b34hfmw3u7d4y" path="res://prefabs/styles/upgrades/bizarre/style_upgrade_bizarre_hover.tres" id="3_nyjbr"]
+[ext_resource type="StyleBox" uid="uid://texy1wbf07t8" path="res://prefabs/styles/upgrades/bizarre/style_upgrade_bizarre_normal.tres" id="4_m54ai"]
+[ext_resource type="StyleBox" uid="uid://d3ls63du3or1f" path="res://prefabs/styles/upgrades/bizarre/style_upgrade_bizarre_pressed.tres" id="5_k7hse"]
+
+[resource]
+Button/styles/disabled = ExtResource("1_wwrnk")
+Button/styles/focus = ExtResource("2_3da3m")
+Button/styles/hover = ExtResource("3_nyjbr")
+Button/styles/normal = ExtResource("4_m54ai")
+Button/styles/pressed = ExtResource("5_k7hse")

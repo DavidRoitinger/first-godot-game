@@ -8,28 +8,26 @@ namespace FirstGodotGame;
 
 public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
 {
-    private TileMapLayer _groundLayer;
-    public TileMapLayer GroundLayer
+    protected TileMapLayer _groundLayer 
     {
         get
         {
-            _groundLayer ??= GetTree()
+            return GetTree()
                 .GetNodesInGroup("Tilemap")
                 .First(node => node.Name == "GroundLayer") as TileMapLayer;
-            return _groundLayer;
         }
     }
-    private TileMapLayer _highlightLayer;
-    public TileMapLayer HighlightLayer
+    
+    protected TileMapLayer _highlightLayer
     {
         get
         {
-            _highlightLayer ??= GetTree()
+            return GetTree()
                 .GetNodesInGroup("Tilemap")
                 .First(node => node.Name == "HighlightLayer") as TileMapLayer;
-            return _highlightLayer;
         }
     }
+    
     
     // private List<Attack> _attacks;
     // public List<Attack> Attacks
@@ -80,6 +78,7 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
         {
             SoundManager.Instance.PlaySfx(SoundManager.Miss);
         }
+        ownEntityStats.PlayAnimation("Action");
     }
 
     protected int DistributeDamage(EntityStats ownEntityStats, List<EntityStats> allEntityStats, List<Vector2I> attackedTiles, Attack attack)
@@ -93,7 +92,7 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
         hitEnities.ForEach(hitEntityStats =>
             {
                 ApplyKnockback(ownEntityStats.GridPosition, attack.TargetKnockback, hitEntityStats);
-
+                
                 hitEntityStats.TakeDamage(attack.Damage);
             });
         
@@ -124,7 +123,7 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
             var atkPos = coordinate - attackOrigin + attackPosition;
             attackedTiles.Add(atkPos);
                     
-            HighlightLayer.SetCell(atkPos, 1, new Vector2I(2,0));
+            _highlightLayer.SetCell(atkPos, 1, new Vector2I(2,0));
             await Task.Delay(10/TurnSkipper.SpeedUpTurn);
         }
         return attackedTiles;
@@ -166,7 +165,7 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
 
         var attackOrigin = FindValueInPattern(pattern, OR).First();
 
-        HighlightLayer.Clear();
+        _highlightLayer.Clear();
 
         List<Vector2I> possibleAttackOrigins = new List<Vector2I>();
 
@@ -179,10 +178,10 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
         {
             var atkPos = coordinate - attackOrigin + gridPosition;
                 
-            if (GroundLayer.GetCellTileData(atkPos) == null) continue;
+            if (_groundLayer.GetCellTileData(atkPos) == null) continue;
                 
             possibleAttackOrigins.Add(atkPos);
-            HighlightLayer.SetCell(atkPos, 1, markerAtlasCoords);
+            _highlightLayer.SetCell(atkPos, 1, markerAtlasCoords);
             await Task.Delay(10/TurnSkipper.SpeedUpTurn);
         }
 
@@ -219,7 +218,7 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
             foreach (var n in isKnockback ? Get8Neighbors(pos) : Get4Neighbors(pos))
             {
                 if (results.Contains(n)) continue;                                      // already discovered at same or better level
-                if (!isKnockback && GroundLayer.GetCellTileData(n) == null) continue;   // blocked
+                if (!isKnockback && _groundLayer.GetCellTileData(n) == null) continue;   // blocked
 
                 results.Add(n);
                 q.Enqueue((n, remaining - 1));
@@ -272,7 +271,7 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
                 var pos = new Vector2I(x, y);
 				
                 if(pos == ownEntityStats.GridPosition) continue; // Starting Tile
-                if(GroundLayer.GetCellTileData(pos) == null) continue; // Empty Tile
+                if(_groundLayer.GetCellTileData(pos) == null) continue; // Empty Tile
                 if(allEntityStats.Any(eS => eS.GridPosition == pos)) continue; // Used Tile
 				
                 moveOptions.Add(pos);
@@ -308,15 +307,16 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
                 );
     }
 
+
+    
+
     public void Die(EntityStats entityStats)
     {
-        GD.Print($"Peter the {entityStats.EntityName} is here!");
         if (GetParent().GetChildren().FirstOrDefault(x => x is Sprite2D) is Sprite2D sprite)
         {
             sprite.RotationDegrees = 90;
 
         }
-        
 
     }
 }

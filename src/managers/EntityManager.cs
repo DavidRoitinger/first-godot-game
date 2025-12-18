@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Godot;
-using PhantomCamera;
 
 namespace FirstGodotGame;
 
@@ -13,39 +12,54 @@ public partial class EntityManager : Node
 	
 	private  TileMapLayer _groundLayer;
 	private  TileMapLayer _highlightLayer;
-	private  PhantomCamera2D _phantomCamera2D;
+	// private  PhantomCamera2D _phantomCamera2D;
 
 	private int _turnIndex;
+	private bool _sceneChanged = false;
 
 	[Export] public int TurnDurationMs = 1000;
 
 
+	public static EntityManager Instance { get; private set; }
+	
 	public override void _Ready()
 	{
-		SaveLoadManager.Load(GetTree());
+		Instance = this;
+	}
+	
+	public async Task StartGameLoop()
+	{
+		GD.Print(GetTree().ToString());
+		
 		LoadEntities();
 		
 		_groundLayer = GetTree().GetNodesInGroup("Tilemap").First(node => node.Name == "GroundLayer") as TileMapLayer;
 		_highlightLayer = GetTree().GetNodesInGroup("Tilemap").First(node => node.Name == "HighlightLayer") as TileMapLayer;
 
-		_phantomCamera2D = GetNode<Node2D>("%PhantomCamera2D").AsPhantomCamera2D();
+		//Todo: Find better solution... not sure it is supposed to work like that...
 		
+		// _phantomCamera2D = GetTree().GetCurrentScene().GetNode<Node2D>("%PhantomCamera2D").AsPhantomCamera2D();
+		//
 		// _phantomCamera2D.FollowTargets = _entities
 		// 	.Where(x => x.EntityType == EntityStats.Type.Player)
 		// 	.Select(x => x.GetParent() as Node2D)
 		// 	.ToArray();
+		//
+		CameraManager.Instance.ChangeTargets(_entities
+			.Where(x => x.EntityType == EntityStats.Type.Player)
+			.ToList()
+			);
 		
-		_ = GameLoop();
+		await GameLoop();
 	}
-
 
 	private async Task GameLoop()
 	{
 		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		
-		while (true)
+		while (!_sceneChanged)
 		{
-			await StartTurn();
+			StartTurn();
 
 			await Task.Delay(TurnDurationMs/TurnSkipper.SpeedUpTurn);
 
@@ -54,57 +68,67 @@ public partial class EntityManager : Node
 				await EntityTurn(_entities[_turnIndex]);
 			}
 			
-			await EndTurn();
 			
 			await Task.Delay(TurnDurationMs/TurnSkipper.SpeedUpTurn);
+			await EndTurn();
 			
 		}
+
+		_sceneChanged = false;
 	}
 
-	private async Task StartTurn()
+	private void StartTurn()
 	{
 		_highlightLayer.Clear();
 		LoadEntities();
+		
+		// if (_entities[_turnIndex].EntityType != EntityStats.Type.Player)
+		// {
+			// _phantomCamera2D.FollowTargets =
+			// 	[.._phantomCamera2D.FollowTargets, _entities[_turnIndex].GetParent() as Node2D];
+		// }
 
+		CameraManager.Instance.AddTarget(_entities[_turnIndex]);
+
+	}
+	
+
+	private async Task EndTurn()
+	{
 		if (!_entities.Any(x => x.EntityType == EntityStats.Type.Player && x.Health > 0))
 		{
 			//Looose
-			await SceneManager.Instance.ReloadCurrentLevel();
-		}
-		if(!_entities.Any(x => x.EntityType == EntityStats.Type.Enemy && x.Health > 0))
+			CameraManager.Instance.Clear();
+			SceneManager.Instance.ReloadCurrentLevel();
+			_sceneChanged = true;
+		} else if(!_entities.Any(x => x.EntityType == EntityStats.Type.Enemy && x.Health > 0))
 		{
 			//Win
 			
 			//Todo:Upgrade Menu here...
 			await ShopManager.Instance.OpenShop();
-			
-			await SceneManager.Instance.LoadNextLevel();
+
+			CameraManager.Instance.Clear();
+			SceneManager.Instance.LoadNextLevel();
+			_sceneChanged = true;
 		}
-		
+		else
+		{
+			// if (_entities[_turnIndex].EntityType != EntityStats.Type.Player)
+			// {
+			// _phantomCamera2D.FollowTargets =
+			// 	_phantomCamera2D.FollowTargets
+			// 		.Where(x => x != _entities[_turnIndex].GetParent())
+			// 		.ToArray();
+			// }
+			
+			CameraManager.Instance.RemoveTarget(_entities[_turnIndex]);
+			
+			await HandelOutOfBounds();
 
-		// if (_entities[_turnIndex].EntityType != EntityStats.Type.Player)
-		// {
-			_phantomCamera2D.FollowTargets =
-				[.._phantomCamera2D.FollowTargets, _entities[_turnIndex].GetParent() as Node2D];
-		// }
-		
-	}
-
-	private async Task EndTurn()
-	{
-		// if (_entities[_turnIndex].EntityType != EntityStats.Type.Player)
-		// {
-			_phantomCamera2D.FollowTargets =
-				_phantomCamera2D.FollowTargets
-					.Where(x => x != _entities[_turnIndex].GetParent())
-					.ToArray();
-		// }
-		
-		await HandelOutOfBounds();
-
-		_turnIndex++;
-		if (_turnIndex >= _entities.Count) _turnIndex = 0;
-		
+			_turnIndex++;
+			if (_turnIndex >= _entities.Count) _turnIndex = 0;
+		}
 	}
 
 	private async Task HandelOutOfBounds()
@@ -114,10 +138,10 @@ public partial class EntityManager : Node
 			if (_groundLayer.GetCellTileData(entityStats.GridPosition) == null)
 			{
 				
-				_phantomCamera2D.FollowTargets =
-					[.._phantomCamera2D.FollowTargets, entityStats.GetParent() as Node2D];
-
+				// _phantomCamera2D.FollowTargets =
+				// 	[.._phantomCamera2D.FollowTargets, entityStats.GetParent() as Node2D];
 				
+				CameraManager.Instance.AddTarget(entityStats);
 				
 				var newSaveTile = _groundLayer
 					.GetUsedCells()
@@ -135,11 +159,12 @@ public partial class EntityManager : Node
 				await Task.Delay(500/TurnSkipper.SpeedUpTurn);
 				
 				
-				_phantomCamera2D.FollowTargets =
-					_phantomCamera2D.FollowTargets
-						.Where(x => x != entityStats.GetParent())
-						.ToArray();
-
+				// _phantomCamera2D.FollowTargets =
+				// 	_phantomCamera2D.FollowTargets
+				// 		.Where(x => x != entityStats.GetParent())
+				// 		.ToArray();
+				
+				CameraManager.Instance.RemoveTarget(entityStats);
 			}
 		}
 	}
@@ -161,12 +186,11 @@ public partial class EntityManager : Node
 	
 	private void LoadEntities()
 	{
-		_entities = GetTree().GetNodesInGroup("Entity")
+		_entities = Instance.GetTree().GetNodesInGroup("Entity")
 			.Select(node => node.GetChildren()
 					.First(childNode => childNode.Name == "EntityStats")
 				as EntityStats
-			).OrderBy(eS => eS.Speed)
-			.ToList();
+			).ToList();
 	}
 
 }

@@ -28,6 +28,8 @@ public partial class LevelSetup : Node
     public override void _Ready()
     {
         SetupLevel();
+        SaveLoadManager.Load(GetTree());
+        _ = EntityManager.Instance.StartGameLoop();
     }
 
     public void SetupLevel()

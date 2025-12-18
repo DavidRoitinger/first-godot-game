@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -124,7 +123,15 @@ public partial class EntityStats : Node
         {
             Health -= damage - Armor;
         }
-        
+        else
+        {
+            Health -= 1;
+        }
+
+        if (Health > 0)
+        {
+            PlayAnimation("Action");
+        }
         
         var tween = GetTree().CreateTween();
         
@@ -169,6 +176,14 @@ public partial class EntityStats : Node
     {
         AttackIds.Clear();
         Attacks.Clear();
+    }
+    
+    public void PlayAnimation(string animationName)
+    {
+        if (GetParent().GetChildren().OfType<AnimationPlayer>().First() is { } animationPlayer)
+        {
+            animationPlayer.Play(animationName);
+        }
     }
     
     
