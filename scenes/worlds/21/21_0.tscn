@@ -1,0 +1,103 @@
+[gd_scene load_steps=9 format=4 uid="uid://bompgebho32x2"]
+
+[ext_resource type="PackedScene" uid="uid://dqdm118llup3x" path="res://prefabs/entities/player.tscn" id="1_5x1y5"]
+[ext_resource type="Shader" uid="uid://cqqokul14psc" path="res://src/shaders/test.gdshader" id="2_d7l0s"]
+[ext_resource type="TileSet" uid="uid://cgglo8ysjk0tk" path="res://prefabs/tilesets/Tileset.tres" id="3_y5fxs"]
+[ext_resource type="Script" uid="uid://bmit0ga5dsfe7" path="res://src/managers/LevelSetup.cs" id="4_gg5by"]
+[ext_resource type="PackedScene" uid="uid://cghyuac40ovqb" path="res://prefabs/entities/basic_enemy.tscn" id="5_e6xwx"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8oi5d"]
+resource_local_to_scene = true
+shader = ExtResource("2_d7l0s")
+shader_parameter/flashColor = Color(1, 1, 1, 1)
+shader_parameter/flashIntensity = 0.0
+shader_parameter/colorR = 1.0
+shader_parameter/colorG = 0.0
+shader_parameter/colorB = 1.0
+shader_parameter/colorA = 1.0
+shader_parameter/frequency = 10.0
+shader_parameter/speed = 5.0
+shader_parameter/amplitude = 0.1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xlfua"]
+resource_local_to_scene = true
+shader = ExtResource("2_d7l0s")
+shader_parameter/flashColor = Color(1, 1, 1, 1)
+shader_parameter/flashIntensity = 0.0
+shader_parameter/colorR = 1.0
+shader_parameter/colorG = 0.0
+shader_parameter/colorB = 1.0
+shader_parameter/colorA = 1.0
+shader_parameter/frequency = 10.0
+shader_parameter/speed = 5.0
+shader_parameter/amplitude = 0.1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rei80"]
+resource_local_to_scene = true
+shader = ExtResource("2_d7l0s")
+shader_parameter/flashColor = Color(1, 1, 1, 1)
+shader_parameter/flashIntensity = 0.0
+shader_parameter/colorR = 1.0
+shader_parameter/colorG = 0.0
+shader_parameter/colorB = 1.0
+shader_parameter/colorA = 1.0
+shader_parameter/frequency = 10.0
+shader_parameter/speed = 5.0
+shader_parameter/amplitude = 0.1
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Entities" type="Node2D" parent="."]
+
+[node name="Player" parent="Entities" instance=ExtResource("1_5x1y5")]
+position = Vector2(-112, 72)
+
+[node name="PlayerSprite" parent="Entities/Player" index="0"]
+material = SubResource("ShaderMaterial_8oi5d")
+
+[node name="EntityStats" parent="Entities/Player" index="1"]
+GridPosition = Vector2i(0, 8)
+
+[node name="Player2" parent="Entities" instance=ExtResource("1_5x1y5")]
+position = Vector2(112, 72)
+
+[node name="PlayerSprite" parent="Entities/Player2" index="0"]
+material = SubResource("ShaderMaterial_xlfua")
+
+[node name="EntityStats" parent="Entities/Player2" index="1"]
+GridPosition = Vector2i(7, 1)
+
+[node name="Player3" parent="Entities" instance=ExtResource("1_5x1y5")]
+position = Vector2(0, 80)
+
+[node name="PlayerSprite" parent="Entities/Player3" index="0"]
+material = SubResource("ShaderMaterial_rei80")
+
+[node name="EntityStats" parent="Entities/Player3" index="1"]
+EntityName = "Player3"
+GridPosition = Vector2i(4, 5)
+
+[node name="TilemapLayers" type="Node2D" parent="."]
+
+[node name="GroundLayer" type="TileMapLayer" parent="TilemapLayers" groups=["Tilemap"]]
+tile_map_data = PackedByteArray("AAD9//7/AAAAAAAAAAD+////AAAAAAAAAAD//wAAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAIAAAAAAAAAAAD+//7/AAAAAAAAAAABAP7/AAAAAAAAAAAAAP//AAAAAAAAAAD+/wEAAAAAAAAAAAD9/wIAAAAAAAAAAAD9/wEAAAAAAAAAAAD9/wAAAAAAAAAAAAD9////AAAAAAAAAAD+/wAAAAAAAAAAAAD+/wIAAAAAAAAAAAD//wIAAAAAAAAAAAAAAAIAAAAAAAAAAAABAAEAAAAAAAAAAAABAAAAAAAAAAAAAAABAP//AAAAAAAAAAAAAAAAAAAAAAAAAAD//wEAAAAAAAAAAAD/////AAAAAAAAAAD///7/AAAAAAAAAAAAAP7/AAAAAAAAAAD+/wQAAAAAAAAAAAD//wQAAAAAAAAAAAD//wUAAAAAAAAAAAAAAAQAAAAAAAAAAAABAAQAAAAAAAAAAAACAAQAAAAAAAAAAAD+/wUAAAAAAAAAAAAAAAUAAAAAAAAAAAABAAUAAAAAAAAAAAACAAUAAAAAAAAAAAADAAMAAAAAAAAAAAADAAIAAAAAAAAAAAADAAEAAAAAAAAAAAADAAAAAAAAAAAAAAADAP//AAAAAAAAAAAEAP//AAAAAAAAAAAEAAAAAAAAAAAAAAAEAAEAAAAAAAAAAAAEAAIAAAAAAAAAAAAEAAMAAAAAAAAAAAD//wcAAAAAAAAAAAAAAAcAAAAAAAAAAAABAAcAAAAAAAAAAAD//wgAAAAAAAAAAAAAAAgAAAAAAAAAAAABAAgAAAAAAAAAAAAGAAAAAAAAAAAAAAAGAAEAAAAAAAAAAAAGAAIAAAAAAAAAAAAHAAIAAAAAAAAAAAAHAAEAAAAAAAAAAAAHAAAAAAAAAAAAAAD//wYAAAAAAAMAAAD+/wMAAAAAAAMAAAAAAAMAAAAAAAMAAAD//wMAAAAAAAMAAAACAAEAAAACAAMAAAACAAAAAAACAAMAAAACAP//AAACAAMAAAAFAAAAAAACAAMAAAADAAQAAAAAAAAAAAADAAUAAAAAAAAAAAAEAAUAAAAAAAAAAAAEAAQAAAAAAAAAAAADAAYAAAAAAAAAAAAEAAYAAAAAAAAAAAAFAAYAAAAAAAAAAAAFAAUAAAAAAAAAAAAFAAQAAAAAAAAAAAAAAP3/AAAAAAAAAAD8/wEAAAAAAAAAAAA=")
+tile_set = ExtResource("3_y5fxs")
+
+[node name="HighlightLayer" type="TileMapLayer" parent="TilemapLayers" groups=["Tilemap"]]
+tile_set = ExtResource("3_y5fxs")
+
+[node name="CursorLayer" type="TileMapLayer" parent="TilemapLayers" groups=["Tilemap"]]
+tile_set = ExtResource("3_y5fxs")
+
+[node name="ObjectLayer" type="TileMapLayer" parent="TilemapLayers" groups=["Tilemap"]]
+tile_set = ExtResource("3_y5fxs")
+
+[node name="LevelSetup" type="Node" parent="."]
+script = ExtResource("4_gg5by")
+EnemyCount = 1
+Enemies = Array[PackedScene]([ExtResource("5_e6xwx")])
+SafetyRange = 4
+
+[editable path="Entities/Player"]
+[editable path="Entities/Player2"]
+[editable path="Entities/Player3"]

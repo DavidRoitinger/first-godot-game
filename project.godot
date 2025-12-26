@@ -23,6 +23,7 @@ UpgradeShop="*res://prefabs/Globals/upgrade_shop.tscn"
 SpeedUp="*res://prefabs/Globals/speed_up.tscn"
 EntityManager="*res://prefabs/Globals/entity_manager.tscn"
 CameraManager="*res://prefabs/Globals/camera_manager.tscn"
+WorldChooser="*res://prefabs/Globals/world_chooser.tscn"
 
 [dotnet]
 

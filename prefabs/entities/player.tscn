@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://dqdm118llup3x"]
+[gd_scene load_steps=10 format=3 uid="uid://dqdm118llup3x"]
 
 [ext_resource type="Shader" uid="uid://cqqokul14psc" path="res://src/shaders/test.gdshader" id="1_grlhh"]
 [ext_resource type="Texture2D" uid="uid://c6c2ao3chmm0c" path="res://assets/sprites/Test_Player.png" id="2_j0cl5"]
 [ext_resource type="Script" uid="uid://bkt8ss3yij3sy" path="res://src/entity/EntityStats.cs" id="3_qpvj0"]
 [ext_resource type="Script" uid="uid://cox568iv3d5e7" path="res://src/entity/PlayerAction.cs" id="4_2tsmg"]
+[ext_resource type="PackedScene" uid="uid://wy3rartbe50h" path="res://prefabs/entities/entity_ui.tscn" id="5_j0cl5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r6p65"]
 resource_local_to_scene = true
@@ -17,12 +18,6 @@ shader_parameter/colorA = 1.0
 shader_parameter/frequency = 10.0
 shader_parameter/speed = 5.0
 shader_parameter/amplitude = 0.1
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mngbo"]
-bg_color = Color(0.21, 0.21, 0.21, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4w45t"]
-bg_color = Color(0.27583897, 0.7118056, 0, 1)
 
 [sub_resource type="Animation" id="Animation_grlhh"]
 resource_name = "Action"
@@ -105,34 +100,7 @@ AttackIds = Array[int]([1000])
 [node name="EntityAction" type="Node" parent="."]
 script = ExtResource("4_2tsmg")
 
-[node name="Control" type="Control" parent="."]
-z_index = 20
-layout_mode = 3
-anchors_preset = 0
-offset_left = -20.0
-offset_top = -50.0
-offset_right = 20.0
-offset_bottom = -10.0
-
-[node name="ProgressBar" type="ProgressBar" parent="Control"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -2.0
-offset_right = 20.0
-offset_bottom = 2.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/background = SubResource("StyleBoxFlat_mngbo")
-theme_override_styles/fill = SubResource("StyleBoxFlat_4w45t")
-max_value = 5.0
-value = 5.0
-show_percentage = false
-metadata/_edit_use_anchors_ = true
+[node name="Control" parent="." instance=ExtResource("5_j0cl5")]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

@@ -17,7 +17,7 @@ public partial class EntityManager : Node
 	private int _turnIndex;
 	private bool _sceneChanged = false;
 
-	[Export] public int TurnDurationMs = 1000;
+	[Export] public int TurnDurationMs = 500;
 
 
 	public static EntityManager Instance { get; private set; }
@@ -59,17 +59,13 @@ public partial class EntityManager : Node
 		
 		while (!_sceneChanged)
 		{
-			StartTurn();
-
-			await Task.Delay(TurnDurationMs/TurnSkipper.SpeedUpTurn);
-
+			await StartTurn();
+			
 			if (_entities[_turnIndex].Health > 0)
 			{
 				await EntityTurn(_entities[_turnIndex]);
 			}
 			
-			
-			await Task.Delay(TurnDurationMs/TurnSkipper.SpeedUpTurn);
 			await EndTurn();
 			
 		}
@@ -77,19 +73,15 @@ public partial class EntityManager : Node
 		_sceneChanged = false;
 	}
 
-	private void StartTurn()
+	private async Task StartTurn()
 	{
 		_highlightLayer.Clear();
 		LoadEntities();
-		
-		// if (_entities[_turnIndex].EntityType != EntityStats.Type.Player)
-		// {
-			// _phantomCamera2D.FollowTargets =
-			// 	[.._phantomCamera2D.FollowTargets, _entities[_turnIndex].GetParent() as Node2D];
-		// }
-
 		CameraManager.Instance.AddTarget(_entities[_turnIndex]);
 
+		_entities[_turnIndex].TriggerTurnStartEffects();
+		
+		await Task.Delay(TurnDurationMs/TurnSkipper.SpeedUpTurn);
 	}
 	
 
@@ -114,17 +106,11 @@ public partial class EntityManager : Node
 		}
 		else
 		{
-			// if (_entities[_turnIndex].EntityType != EntityStats.Type.Player)
-			// {
-			// _phantomCamera2D.FollowTargets =
-			// 	_phantomCamera2D.FollowTargets
-			// 		.Where(x => x != _entities[_turnIndex].GetParent())
-			// 		.ToArray();
-			// }
-			
 			CameraManager.Instance.RemoveTarget(_entities[_turnIndex]);
 			
 			await HandelOutOfBounds();
+			
+			_entities[_turnIndex].TriggerTurnEndEffects();
 
 			_turnIndex++;
 			if (_turnIndex >= _entities.Count) _turnIndex = 0;
@@ -172,16 +158,18 @@ public partial class EntityManager : Node
 	private async Task EntityTurn(EntityStats entity)
 	{
 		
-		//Enemy logic...
-		GD.Print($"Entity Turn! {_entities[_turnIndex].EntityName} ?");
 
 		var entityAttack = entity.GetParent().GetChildren().FirstOrDefault(x => x is IEntityAttack) as IEntityAttack;
 		var entityMove = entity.GetParent().GetChildren().FirstOrDefault(x => x is IEntityMove) as IEntityMove;
+		var entityUi = entity.GetParent().GetChildren().FirstOrDefault(x => x is EntityUI) as EntityUI;
 
+		entityUi?.ShowUi(2);
 		
 		await (entityMove?.Move(entity, _entities) ?? Task.CompletedTask);
 		
 		await (entityAttack?.Attack(entity, _entities)?? Task.CompletedTask);
+		
+		entityUi?.HideUi(2);
 	}
 	
 	private void LoadEntities()

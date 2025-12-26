@@ -6,6 +6,8 @@ using Godot;
 
 namespace FirstGodotGame;
 
+//Todo: Check if saving is working and perhaps implement HandleUnknownType...
+
 public class SaveLoadManager
 {
     public static void Save(SceneTree sceneTree)
@@ -21,8 +23,13 @@ public class SaveLoadManager
                 Attacks: stats.Attacks.ToArray()
             ))
             .ToList();
+        
+        var options = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+        };
 
-        string jsonString = JsonSerializer.Serialize(playerStats);
+        string jsonString = JsonSerializer.Serialize(playerStats, options);
 
         if (!Directory.Exists("save")) Directory.CreateDirectory("save");
         

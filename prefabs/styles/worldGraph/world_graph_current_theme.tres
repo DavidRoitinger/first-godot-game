@@ -1,0 +1,8 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://covcvvx1q1smj"]
+
+[ext_resource type="StyleBox" uid="uid://nolbjfveb7c8" path="res://prefabs/styles/worldGraph/world_graph_current_panel.tres" id="1_ains5"]
+[ext_resource type="StyleBox" uid="uid://3l1tbsf2jtrl" path="res://prefabs/styles/worldGraph/world_graph_current_titlebar.tres" id="2_jtl7c"]
+
+[resource]
+GraphNode/styles/panel = ExtResource("1_ains5")
+GraphNode/styles/titlebar = ExtResource("2_jtl7c")

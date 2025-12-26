@@ -40,7 +40,7 @@ public partial class PlayerAction : EntityAction, IEntityMove, IEntityAttack
                 await HighlightPattern(
                     ownEntityStats.GridPosition,
                     attack.OriginPattern,
-                    new Vector2I(1, 0));
+                    BlueMarker);
 
             _currentAttack = attack;
 
@@ -55,6 +55,7 @@ public partial class PlayerAction : EntityAction, IEntityMove, IEntityAttack
             }
             else if (input == "Right")
             {
+                CursorLayer.Clear();
                 _attackIndex++;
                 if (_attackIndex >= ownEntityStats.Attacks.Count)
                 {
@@ -71,7 +72,8 @@ public partial class PlayerAction : EntityAction, IEntityMove, IEntityAttack
         if (DistributeDamage(ownEntityStats, allEntityStats, attackedTiles, attack) >= 1)
         {
             ApplyKnockback(currentMousePosition, attack.UserKnockback, ownEntityStats);
-            SoundManager.Instance.PlaySfx(SoundManager.Shot);
+            
+            SoundManager.Instance.PlaySfx(attack.Buff ? SoundManager.Buff : SoundManager.Shot);
         }
         else
         {
@@ -80,7 +82,7 @@ public partial class PlayerAction : EntityAction, IEntityMove, IEntityAttack
         
         ownEntityStats.PlayAnimation("Action");
 
-        await Task.Delay(2000/TurnSkipper.SpeedUpTurn);
+        await Task.Delay(1000/TurnSkipper.SpeedUpTurn);
     }
     
     protected Attack GetAttackByIndex(int index, EntityStats ownEntityStats)
@@ -101,7 +103,7 @@ public partial class PlayerAction : EntityAction, IEntityMove, IEntityAttack
         foreach (var possibleMovePosition in possibleMovePositions)
         {
             await Task.Delay(10/TurnSkipper.SpeedUpTurn);
-            _highlightLayer.SetCell(possibleMovePosition, 1, new Vector2I(1, 0));
+            _highlightLayer.SetCell(possibleMovePosition, 1, BlueMarker);
         }
 
         while (true)
@@ -113,11 +115,12 @@ public partial class PlayerAction : EntityAction, IEntityMove, IEntityAttack
             if (possibleMovePositions.Contains(currentMousePosition))
             {
                 ownEntityStats.GridPosition = currentMousePosition;
+                SoundManager.Instance.PlaySfx(SoundManager.Move);
                 break;
             }
         }
         
-        await Task.Delay(2000/TurnSkipper.SpeedUpTurn);
+        await Task.Delay(1000/TurnSkipper.SpeedUpTurn);
     }
 
     protected void PreviewPattern(Vector2I gridPosition, Vector2I markerAtlasCoords)
@@ -179,7 +182,7 @@ public partial class PlayerAction : EntityAction, IEntityMove, IEntityAttack
         {
             PreviewPattern(
                 CursorLayer.LocalToMap(_groundLayer.ToLocal(GetViewport().GetCamera2D().GetGlobalMousePosition())),
-                new Vector2I(0, 0));
+                _currentAttack.Buff ? GreenMarker : RedMarker);
         }
     }
 }

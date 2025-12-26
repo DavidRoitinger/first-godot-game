@@ -1,0 +1,93 @@
+[gd_scene load_steps=6 format=3 uid="uid://c6xqxqhlxjka3"]
+
+[ext_resource type="Script" uid="uid://d1l7go0wd8yu4" path="res://src/managers/WorldChooserManager.cs" id="1_qx07v"]
+[ext_resource type="Theme" uid="uid://covcvvx1q1smj" path="res://prefabs/styles/worldGraph/world_graph_current_theme.tres" id="2_r2tqv"]
+
+[sub_resource type="Animation" id="Animation_qx07v"]
+resource_name = "Open"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 0.7),
+"update": 0,
+"values": [Vector2(0, 750), Vector2(0, 10), Vector2(0, 50)]
+}
+
+[sub_resource type="Animation" id="Animation_r2tqv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 750)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jhps3"]
+_data = {
+&"Open": SubResource("Animation_qx07v"),
+&"RESET": SubResource("Animation_r2tqv")
+}
+
+[node name="CanvasLayer" type="CanvasLayer"]
+offset = Vector2(0, 750)
+transform = Transform2D(1, 0, 0, 1, 0, 750)
+script = ExtResource("1_qx07v")
+graphThemes = Dictionary[int, Theme]({
+0: ExtResource("2_r2tqv")
+})
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -51.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.55, 0.33, 0.55, 0.5568628)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 300.0
+grow_horizontal = 2
+theme_override_constants/margin_top = 50
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" groups=["WorldContainer"]]
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
+theme_override_constants/separation = 150
+alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_jhps3")
+}
+
+[node name="GraphEdit" type="GraphEdit" parent="."]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_right = 1173.0
+offset_bottom = 331.0
+grow_vertical = 2
+scroll_offset = Vector2(-15, -52)
+show_grid = false
+snapping_enabled = false
+zoom_min = 1.0
+zoom_max = 1.0
+minimap_enabled = false
+show_menu = false
+
+[connection signal="connection_request" from="GraphEdit" to="." method="_on_graph_edit_connection_request"]

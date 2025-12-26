@@ -27,6 +27,14 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
                 .First(node => node.Name == "HighlightLayer") as TileMapLayer;
         }
     }
+
+    protected Vector2I RedMarker => new (0, 0);
+    protected Vector2I RedCrossMarker => new (1, 0);
+    protected Vector2I BlueMarker => new (2, 0);
+    protected Vector2I BlueCrossMarker => new (3, 0);
+    protected Vector2I GreenMarker => new (4, 0);
+    protected Vector2I GreenCrossMarker => new (5, 0);
+    
     
     
     // private List<Attack> _attacks;
@@ -58,7 +66,7 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
         var possibleAttackOrigins = await HighlightPattern(
             ownEntityStats.GridPosition,
             attack.OriginPattern,
-            new Vector2I(1, 0));
+            BlueMarker);
         
         await Task.Delay(500/TurnSkipper.SpeedUpTurn);
         
@@ -72,29 +80,51 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
         if (DistributeDamage(ownEntityStats, allEntityStats, attackedTiles, attack) >= 1)
         {
             ApplyKnockback(closestAttackPosition.Value, attack.UserKnockback, ownEntityStats);
-            SoundManager.Instance.PlaySfx(SoundManager.Shot);
+            //Apply Effect
+            ownEntityStats.AddEffect(attack.UserEffect);
+
+            SoundManager.Instance.PlaySfx(attack.Buff ? SoundManager.Buff : SoundManager.Shot);
         }
         else
         {
             SoundManager.Instance.PlaySfx(SoundManager.Miss);
         }
+        
         ownEntityStats.PlayAnimation("Action");
+        
+        await Task.Delay(1000/TurnSkipper.SpeedUpTurn);
     }
 
     protected int DistributeDamage(EntityStats ownEntityStats, List<EntityStats> allEntityStats, List<Vector2I> attackedTiles, Attack attack)
     {
         var hitEnities = allEntityStats
             .Where(stats =>
-                stats.EntityType != ownEntityStats.EntityType &&
-                attackedTiles.Contains(stats.GridPosition))
+                attackedTiles.Contains(stats.GridPosition)&&
+                ((stats.EntityType != ownEntityStats.EntityType && !attack.Buff) || 
+                 (stats.EntityType == ownEntityStats.EntityType && attack.Buff))
+            )
             .ToList();
         
         hitEnities.ForEach(hitEntityStats =>
+        {
+            var ui = hitEntityStats.GetParent().GetChildren().OfType<EntityUI>().First();
+
+            _ = ui.ShowUiForTime(2, 2000);
+                    
+            ApplyKnockback(ownEntityStats.GridPosition, attack.TargetKnockback, hitEntityStats);
+            
+            //Apply Effect
+            hitEntityStats.AddEffect(attack.TargetEffect);
+
+            if (attack.Buff)
             {
-                ApplyKnockback(ownEntityStats.GridPosition, attack.TargetKnockback, hitEntityStats);
-                
-                hitEntityStats.TakeDamage(attack.Damage);
-            });
+                hitEntityStats.HealHealth(attack.Damage); 
+            }
+            else
+            {
+                hitEntityStats.TakeDamage(attack.Damage); 
+            }
+        });
         
         return hitEnities.Count;
     }
@@ -123,7 +153,7 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
             var atkPos = coordinate - attackOrigin + attackPosition;
             attackedTiles.Add(atkPos);
                     
-            _highlightLayer.SetCell(atkPos, 1, new Vector2I(2,0));
+            _highlightLayer.SetCell(atkPos, 1, attack.Buff ? GreenCrossMarker : RedCrossMarker);
             await Task.Delay(10/TurnSkipper.SpeedUpTurn);
         }
         return attackedTiles;
@@ -280,11 +310,10 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
                 // GD.Print($"X:{x};Y:{y}");
             }
         }
-		
-        GD.Print(ownEntityStats.GridPosition);
-        
         
         ownEntityStats.GridPosition = FindClosestToPlayer(allEntityStats, moveOptions) ?? ownEntityStats.GridPosition;
+        
+        SoundManager.Instance.PlaySfx(SoundManager.Move);
     }
 
     protected static Vector2I? FindClosestToPlayer(List<EntityStats> allEntityStats, List<Vector2I> tiles)

@@ -7,8 +7,12 @@ public class Attack
     public int Id { get; set; }
     public string Name { get; set; }
     public int Damage { get; set; }
+    public bool Buff { get; set; }
     public int UserKnockback { get; set; }
-    public int TargetKnockback { get; set; }
+    public int TargetKnockback { get; set; }    
+    
+    public Effect UserEffect { get; set; }
+    public Effect TargetEffect { get; set; }
     
     public List<List<int>> OriginPattern { get; set; }
     public List<List<int>> NeutralAttackPattern  { get; set; }

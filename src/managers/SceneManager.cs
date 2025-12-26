@@ -51,8 +51,8 @@ public partial class SceneManager: Node
         if ((worldMap.LevelIndex + count) >= worldMap.GetActiveWorld().LevelCount)
         {
             //Todo: World selection comes here...
-            worldMap.ActiveWorldId = worldMap.GetActiveWorld().NextWorld[0];
-            worldMap.LevelIndex = 0;
+
+            await WorldChooserManager.Instance.OpenWorldChooser();
         }
         else
         {

@@ -71,7 +71,18 @@ public partial class SoundManager : Node
         "corru/chomp.ogg",
         "corru/hit.ogg",
         "corru/stab.ogg",
+        "corru/crit.ogg",
     ];
 
     public static readonly string Miss = "corru/miss.ogg";
+    
+    public static readonly string[] Buff = [
+        "corru/mend.ogg",
+    ];
+    
+    public static readonly string[] Move = [
+        "corru/click1.ogg",
+        "corru/click2.ogg",
+    ];
+    
 }
