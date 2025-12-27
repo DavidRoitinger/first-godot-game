@@ -1,13 +1,17 @@
+using System.Collections.Generic;
+using System.Linq;
+using Godot;
+
 namespace FirstGodotGame;
 
 public abstract class StatEffect : Effect
 {
-    public virtual EntityStats.Stat AffectedStat { get; set; }
-    
+    public virtual Dictionary<EntityStats.Stat, double> AffectedStat { get; set; }
 
     public override int ApplyStatChange(int originalStatValue, EntityStats.Stat changingStat)
     {
-        if (changingStat == AffectedStat) return originalStatValue + Intensity;
+        if (AffectedStat.Keys.Any(x => x == changingStat))
+            return Mathf.CeilToInt(originalStatValue * Mathf.Pow(AffectedStat[changingStat], Intensity));
         return originalStatValue;
     }
 }

@@ -17,13 +17,19 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-SceneTransition="*res://prefabs/Globals/scene_transition.tscn"
 SoundManager="*res://prefabs/Globals/sound_manager.tscn"
-UpgradeShop="*res://prefabs/Globals/upgrade_shop.tscn"
-SpeedUp="*res://prefabs/Globals/speed_up.tscn"
-EntityManager="*res://prefabs/Globals/entity_manager.tscn"
 CameraManager="*res://prefabs/Globals/camera_manager.tscn"
+EntityManager="*res://prefabs/Globals/entity_manager.tscn"
+RushMode="*res://prefabs/Globals/rush_mode.tscn"
+UpgradeShop="*res://prefabs/Globals/upgrade_shop.tscn"
 WorldChooser="*res://prefabs/Globals/world_chooser.tscn"
+EntityInspector="*res://prefabs/Globals/entity_inspector.tscn"
+SceneTransition="*res://prefabs/Globals/scene_transition.tscn"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 
 [dotnet]
 
@@ -86,6 +92,18 @@ Right_Click={
 Turn_Speed_Up={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":81,"key_label":0,"unicode":113,"location":0,"echo":false,"script":null)
+]
+}
+Cancel={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194305,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194308,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194312,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
+Switch_Attack={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":69,"key_label":0,"unicode":101,"location":0,"echo":false,"script":null)
 ]
 }
 

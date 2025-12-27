@@ -42,4 +42,11 @@ public partial class EntityUI : Control
 	{
 		HideUi(1);
 	}
+	public void _on_gui_input(InputEvent @event)
+	{
+		if (@event.IsActionPressed("Right_Click") && !EntityInspector.Instance.IsInspectorOpen)
+		{
+			_ = EntityInspector.Instance.OpenEntityInspector(GetParent());
+		}
+	}
 }

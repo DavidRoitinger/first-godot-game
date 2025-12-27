@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FirstGodotGame;
 
@@ -17,11 +18,18 @@ public class UpgradePool
     {
     }
     
+    public Upgrade GetUpgradeById(int id)
+    {
+        return  ((Upgrade[])[..CommonUpgradePool, ..StrangeUpgradePool, ..BizarreUpgradePool])
+            .First(x => x.Id == id);
+    }
+    
 
     public readonly List<Upgrade> CommonUpgradePool =
     [
         new StatUpgrade()
         {
+            Id = 2000,
             Name = "BasicSpeed",
             Description = "Increases Speed by 1",
             UpgradeQuality = Upgrade.Quality.Common,
@@ -29,6 +37,7 @@ public class UpgradePool
         },
         new StatUpgrade()
         {
+            Id = 2001,
             Name = "BasicArmor",
             Description = "Increases Armor by 1",
             UpgradeQuality = Upgrade.Quality.Common,
@@ -36,6 +45,7 @@ public class UpgradePool
         },
         new StatUpgrade()
         {
+            Id = 2002,
             Name = "BasicHealth",
             Description = "Increases Health by 1",
             UpgradeQuality = Upgrade.Quality.Common,
@@ -44,6 +54,7 @@ public class UpgradePool
         
         new AttackUpgrade()
         {
+            Id = 2003,
             Name = "LauncherAttack",
             Description = "Adds a new Attack",
             UpgradeQuality = Upgrade.Quality.Common,
@@ -54,6 +65,7 @@ public class UpgradePool
         },
         new AttackUpgrade()
         {
+            Id = 2004,
             Name = "FistAttack",
             Description = "Adds a new Attack",
             UpgradeQuality = Upgrade.Quality.Common,
@@ -64,6 +76,7 @@ public class UpgradePool
         },
         new AttackUpgrade()
         {
+            Id = 2005,
             Name = "FenceAttack",
             Description = "Adds a new Attack",
             UpgradeQuality = Upgrade.Quality.Common,
@@ -78,6 +91,7 @@ public class UpgradePool
     [
         new StatUpgrade()
         {
+            Id = 2100,
             Name = "BasicSpeed+",
             Description = "Increases Speed by 2",
             UpgradeQuality = Upgrade.Quality.Strange,
@@ -85,6 +99,7 @@ public class UpgradePool
         },
         new StatUpgrade()
         {
+            Id = 2101,
             Name = "BasicAmor+",
             Description = "Increases Armor by 2",
             UpgradeQuality = Upgrade.Quality.Strange,
@@ -92,6 +107,7 @@ public class UpgradePool
         },
         new StatUpgrade()
         {
+            Id = 2102,
             Name = "BasicHealth+",
             Description = "Increases Health by 2",
             UpgradeQuality = Upgrade.Quality.Strange,
@@ -104,6 +120,7 @@ public class UpgradePool
     [
         new StatUpgrade()
         {
+            Id = 2200,
             Name = "BasicSpeed++",
             Description = "Increases Speed by 3",
             UpgradeQuality = Upgrade.Quality.Bizarre,
@@ -111,6 +128,7 @@ public class UpgradePool
         },
         new StatUpgrade()
         {
+            Id = 2201,
             Name = "BasicAmor++",
             Description = "Increases Armor by 3",
             UpgradeQuality = Upgrade.Quality.Bizarre,
@@ -118,6 +136,7 @@ public class UpgradePool
         },
         new StatUpgrade()
         {
+            Id = 2202,
             Name = "BasicHealth++",
             Description = "Increases Health by 3",
             UpgradeQuality = Upgrade.Quality.Bizarre,

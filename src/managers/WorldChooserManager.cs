@@ -152,8 +152,8 @@ public partial class WorldChooserManager : CanvasLayer
     }
 
 
-    public void _on_graph_edit_connection_request(StringName from_node, int from_port, StringName to_node, int to_port)
-    {
-        GD.Print($"{from_node};{from_port};{to_node};{to_port}");
-    }
+    // public void _on_graph_edit_connection_request(StringName from_node, int from_port, StringName to_node, int to_port)
+    // {
+    //     GD.Print($"{from_node};{from_port};{to_node};{to_port}");
+    // }
 }

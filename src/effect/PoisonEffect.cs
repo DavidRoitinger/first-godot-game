@@ -10,7 +10,7 @@ public class PoisonEffect : Effect
 
     public override Effect Copy()
     {
-        return new PoisonEffect()
+        return new PoisonEffect() //susceptible to copy mistakes...
         {
             Intensity = Intensity,
             Duration = Duration,

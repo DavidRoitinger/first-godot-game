@@ -1,0 +1,64 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddlfshkre6dyv"]
+
+[ext_resource type="LabelSettings" uid="uid://1juqeoxbisej" path="res://prefabs/styles/labelText/big_label_text.tres" id="1_06a8f"]
+[ext_resource type="Texture2D" uid="uid://c25xt6g4jb35p" path="res://assets/sprites/upgradeIcons/Generic_Icon.png" id="2_ywb26"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -957.0
+offset_top = -232.0
+offset_right = 957.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "TestTestTestTestTestTestTestTestTestTest
+"
+label_settings = ExtResource("1_06a8f")
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -125.0
+offset_top = -150.0
+offset_right = 125.0
+grow_horizontal = 2
+grow_vertical = 0
+columns = 5
+
+[node name="TextureRect" type="TextureRect" parent="GridContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_ywb26")
+expand_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="GridContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("2_ywb26")
+
+[node name="TextureRect3" type="TextureRect" parent="GridContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = ExtResource("2_ywb26")
+
+[node name="TextureRect4" type="TextureRect" parent="GridContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("2_ywb26")
+
+[node name="TextureRect5" type="TextureRect" parent="GridContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("2_ywb26")

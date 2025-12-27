@@ -3,9 +3,12 @@ using System.Text.Json.Serialization;
 using Godot;
 
 namespace FirstGodotGame;
-
+//Todo: Don't forget... nig...
 [JsonDerivedType(typeof(SlowEffect), typeDiscriminator: "slowEffect")]
+[JsonDerivedType(typeof(FocusEffect), typeDiscriminator: "focusEffect")]
+[JsonDerivedType(typeof(ResistantEffect), typeDiscriminator: "resistantEffect")]
 [JsonDerivedType(typeof(PoisonEffect), typeDiscriminator: "poisonEffect")]
+[JsonDerivedType(typeof(RegenEffect), typeDiscriminator: "regenEffect")]
 public abstract class Effect
 {
     public virtual string Name { get; set; }

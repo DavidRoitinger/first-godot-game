@@ -161,7 +161,7 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
 
     protected List<List<int>> FindAttackPatternDirection(Vector2I attackPosition, Attack attack, Vector2I entityPosition)
     {
-        var attackOrigin = FindValueInPattern(attack.OriginPattern, OR).First();
+        var attackOrigin = FindAttackOriginCenter(attack.OriginPattern);
         
         int x = attackPosition.X + attackOrigin.X - entityPosition.X;
         int y = attackPosition.Y + attackOrigin.Y - entityPosition.Y;
@@ -192,8 +192,7 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
 
     protected async Task<List<Vector2I>> HighlightPattern(Vector2I gridPosition, List<List<int>> pattern, Vector2I markerAtlasCoords)
     {
-
-        var attackOrigin = FindValueInPattern(pattern, OR).First();
+        var attackOrigin = FindAttackOriginCenter(pattern);
 
         _highlightLayer.Clear();
 
@@ -204,7 +203,9 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
                      ..FindValueInPattern(pattern, UO),
                      ..FindValueInPattern(pattern, RO),
                      ..FindValueInPattern(pattern, DO),
-                     ..FindValueInPattern(pattern, LO)])
+                     ..FindValueInPattern(pattern, LO),
+                     ..FindValueInPattern(pattern, OA),
+                 ])
         {
             var atkPos = coordinate - attackOrigin + gridPosition;
                 
@@ -216,6 +217,22 @@ public partial class EntityAction : Node, IEntityAttack, IEntityMove, IEntityDie
         }
 
         return possibleAttackOrigins;
+    }
+
+    protected Vector2I FindAttackOriginCenter(List<List<int>> pattern)
+    {
+        Vector2I attackOrigin;
+
+        if (FindValueInPattern(pattern, OR).Count == 0)
+        {
+            attackOrigin = FindValueInPattern(pattern, OA).First();
+        }
+        else
+        {
+            attackOrigin = FindValueInPattern(pattern, OR).First();
+        }
+
+        return attackOrigin;
     }
 
     protected List<Vector2I> FindValueInPattern(List<List<int>> pattern, int value)

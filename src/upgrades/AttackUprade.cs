@@ -8,6 +8,7 @@ public partial class AttackUpgrade : Upgrade
     
     public override void ApplyUpgrade(EntityStats playerStats)
     {
+        playerStats.UpgradeIds.Add(Id);
         playerStats.AddAttackListById(AdditionalAttacks);
     }
 }

@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://08wixwcnq2dx"]
+
+[ext_resource type="Script" uid="uid://cw0528i7exy2x" path="res://src/managers/TurnSkipper.cs" id="1_rp7rw"]
+[ext_resource type="Texture2D" uid="uid://ceb0i33sac7ix" path="res://assets/sprites/uiIcons/On_Icon.png" id="2_c2apf"]
+[ext_resource type="Texture2D" uid="uid://dwttbiqq6jexs" path="res://assets/sprites/uiIcons/Off_Icon.png" id="2_tghqs"]
+[ext_resource type="LabelSettings" uid="uid://1juqeoxbisej" path="res://prefabs/styles/labelText/big_label_text.tres" id="4_c2apf"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+script = ExtResource("1_rp7rw")
+OnIcon = ExtResource("2_c2apf")
+OffIcon = ExtResource("2_tghqs")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -100.0
+offset_right = 445.0
+grow_vertical = 0
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_bottom = 24
+metadata/_edit_use_anchors_ = true
+
+[node name="VFlowContainer" type="VFlowContainer" parent="MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VFlowContainer" groups=["RushModeIcon"]]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = ExtResource("2_tghqs")
+
+[node name="Label" type="Label" parent="MarginContainer/VFlowContainer"]
+layout_mode = 2
+text = "Rush Mode [Q]"
+label_settings = ExtResource("4_c2apf")

@@ -20,7 +20,8 @@ public class SaveLoadManager
                 MaxHealth: stats.MaxHealth,
                 Armor: stats.Armor,
                 Speed: stats.Speed,
-                Attacks: stats.Attacks.ToArray()
+                Attacks: stats.Attacks.ToArray(),
+                UpgradeIds: stats.UpgradeIds.ToArray()
             ))
             .ToList();
         
@@ -55,9 +56,10 @@ public class SaveLoadManager
             playerStats[i].Speed = statList[i].Speed;
             playerStats[i].ClearAttacks();
             playerStats[i].AddAttackList(statList[i].Attacks);
+            playerStats[i].UpgradeIds.AddRange(statList[i].UpgradeIds);
         }
     }
 
-    private record Stats(string EntityName, int MaxHealth, int Armor, int Speed, Attack[] Attacks);
+    private record Stats(string EntityName, int MaxHealth, int Armor, int Speed, Attack[] Attacks, int[] UpgradeIds);
 
 }

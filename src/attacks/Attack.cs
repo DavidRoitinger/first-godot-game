@@ -6,6 +6,7 @@ public class Attack
 {
     public int Id { get; set; }
     public string Name { get; set; }
+    public int Level { get; set; }
     public int Damage { get; set; }
     public bool Buff { get; set; }
     public int UserKnockback { get; set; }
@@ -30,5 +31,7 @@ public class Attack
     public const int RO = 4;
     public const int DO = 5;
     public const int LO = 6;
+    
+    public const int OA = 9;
     
 }

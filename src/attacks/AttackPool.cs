@@ -29,51 +29,25 @@ public class AttackPool
     [
         #region Standart_Attacks #######################################################################################
         
-        new Attack()    //Gun
+        new Attack()    //Weak Punch
         {
             Id = 1000,
-            Name = "Gun",
+            Name = "Weak Punch",
             Damage = 2,
             Buff = false,
             TargetKnockback = 0,
             UserKnockback = 0,
-            TargetEffect = new PoisonEffect() 
-            {
-                Duration = 2,
-                Intensity = 2,
-            },
+            TargetEffect = null,
             UserEffect = null,
             OriginPattern =
             [
-                [NA, NA, NA, NA, NA],
-                [NA, NO, UO, NO, NA],
-                [NA, LO, OR, RO, NA],
-                [NA, NO, DO, NO, NA],
-                [NA, NA, NA, NA, NA],
+                [NO, NO, NO],
+                [NO, OR, NO],
+                [NO, NO, NO],
             ],
             NeutralAttackPattern = 
             [
                 [OR],
-            ],
-            UpAttackPattern = 
-            [
-                [NO],
-                [NO],
-                [OR],
-            ],
-            RightAttackPattern = 
-            [
-                [OR, NO, NO],
-            ],
-            DownAttackPattern = 
-            [
-                [OR],
-                [NO],
-                [NO],
-            ],
-            LeftAttackPattern = 
-            [
-                [NO, NO, OR],
             ],
         },
         new Attack()    //Launcher
@@ -109,21 +83,43 @@ public class AttackPool
         {
             Id = 1002,
             Name = "Stab",
-            Damage = 1,
+            Damage = 2,
             Buff = false,
-            UserKnockback = 1,
-            TargetKnockback = 3,
+            TargetKnockback = 0,
+            UserKnockback = 0,
             TargetEffect = null,
             UserEffect = null,
-            OriginPattern = [
-
-                [2,2,2],
-                [2,1,2],
-                [2,2,2],
-
+            OriginPattern =
+            [
+                [NA, UO, NA],
+                [LO, OR, RO],
+                [NA, DO, NA],
             ],
-            NeutralAttackPattern = [
-                [1],
+            NeutralAttackPattern = 
+            [
+                [OR],
+            ],
+            UpAttackPattern = 
+            [
+                [NO],
+                [NO],
+                [NO],
+                [OR],
+            ],
+            RightAttackPattern = 
+            [
+                [OR, NO, NO, NO],
+            ],
+            DownAttackPattern = 
+            [
+                [OR],
+                [NO],
+                [NO],
+                [NO],
+            ],
+            LeftAttackPattern = 
+            [
+                [NO, NO, NO, OR],
             ],
         }, 
         new Attack()    //Fence
@@ -171,15 +167,84 @@ public class AttackPool
             UserEffect = null,
             OriginPattern = [
 
-                [2,2,2],
-                [2,1,2],
-                [2,2,2],
+                [NO, NO, NO],
+                [NO, OR, NO],
+                [NO, NO, NO],
 
             ],
             NeutralAttackPattern = [
-                [1],
+                [OR],
             ],
         }, 
+
+        #region Self Buff Attack #######################################################################################
+
+        new Attack()    //WeakSelfHeal
+        {
+            Id = 1101,
+            Name = "Weak Self Heal",
+            Damage = 0,
+            Buff = true,
+            UserKnockback = 0,
+            TargetKnockback = 0,
+            TargetEffect = new RegenEffect()
+            {
+                Intensity = 2,
+                Duration = 2,
+            },
+            UserEffect = null,
+            OriginPattern = [
+                [OA]
+            ],
+            NeutralAttackPattern = [
+                [OR],
+            ],
+        }, 
+        new Attack()    //WeakFocus
+        {
+            Id = 1102,
+            Name = "WeakFocus",
+            Damage = 0,
+            Buff = true,
+            UserKnockback = 0,
+            TargetKnockback = 0,
+            TargetEffect = new FocusEffect()
+            {
+                Intensity = 1,
+                Duration = 2,
+            },
+            UserEffect = null,
+            OriginPattern = [
+                [OA]
+            ],
+            NeutralAttackPattern = [
+                [OR],
+            ],
+        }, 
+        new Attack()    //WeakResistance
+        {
+            Id = 1103,
+            Name = "Weak Resistance",
+            Damage = 0,
+            Buff = true,
+            UserKnockback = 0,
+            TargetKnockback = 0,
+            TargetEffect = new ResistantEffect()
+            {
+                Intensity = 1,
+                Duration = 2,
+            },
+            UserEffect = null,
+            OriginPattern = [
+                [OA]
+            ],
+            NeutralAttackPattern = [
+                [OR],
+            ],
+        }, 
+
+        #endregion
+        
         
         #endregion
     ];

@@ -12,7 +12,7 @@ public class RegenEffect : Effect
     
     public override Effect Copy()
     {
-        return new RegenEffect()
+        return new RegenEffect() //susceptible to copy mistakes...
         {
             Intensity = Intensity,
             Duration = Duration,
@@ -29,12 +29,6 @@ public class RegenEffect : Effect
     public override void TurnEndTrigger(EntityStats entityStats)
     {
         return;
-    }
-
-    public override void StackEffect(Effect effect)
-    {
-        Intensity = Math.Max(effect.Intensity, Intensity);
-        Duration += effect.Duration;
     }
     
 }

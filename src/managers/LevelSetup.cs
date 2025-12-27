@@ -28,15 +28,63 @@ public partial class LevelSetup : Node
     public override void _Ready()
     {
         SetupLevel();
-        SaveLoadManager.Load(GetTree());
-        _ = EntityManager.Instance.StartGameLoop();
+        
+        
     }
 
     public void SetupLevel()
     {
-        
+        //Todo: Handle Music...
         SoundManager.Instance.PlayMusic("Stone cold toad.mp3");
         
+        SaveLoadManager.Load(GetTree());
+        
+        PopulateEnemies();
+        GiveUpgradesToEnemies(LevelDifficulty);
+        HealEntities();
+        _ = EntityManager.Instance.StartGameLoop();
+    }
+
+    private void HealEntities()
+    {
+        foreach (var entity in LoadEntities())
+        {
+            entity.Health = entity.MaxHealth;
+        }
+    }
+
+    private void GiveUpgradesToEnemies(float difficulty)
+    {
+        List<EntityStats> enemies = LoadEntities()
+            .Where(x => x.EntityType == EntityStats.Type.Enemy)
+            .ToList();
+
+        Random rand = new Random();
+        
+        while (difficulty >= 0)
+        {
+            if (difficulty <= 0.3f)
+            {
+                UpgradePool.Instance.CommonUpgradePool[rand.Next(UpgradePool.Instance.CommonUpgradePool.Count)]
+                    .ApplyUpgrade(enemies[rand.Next(enemies.Count)]);
+                difficulty -= 0.1f;
+            }
+            else if(difficulty <= 1.0f)
+            {
+                UpgradePool.Instance.StrangeUpgradePool[rand.Next(UpgradePool.Instance.StrangeUpgradePool.Count)]
+                    .ApplyUpgrade(enemies[rand.Next(enemies.Count)]);
+                difficulty -= 0.3f;
+            }else if(difficulty > 1.0f)
+            {
+                UpgradePool.Instance.BizarreUpgradePool[rand.Next(UpgradePool.Instance.BizarreUpgradePool.Count)]
+                    .ApplyUpgrade(enemies[rand.Next(enemies.Count)]);
+                difficulty -= 0.5f;
+            }
+        }
+    }
+
+    private void PopulateEnemies()
+    {
         var node = GetNode("../Entities");
         for (int i = 0; i < EnemyCount; i++)
         {
@@ -45,9 +93,9 @@ public partial class LevelSetup : Node
             var instantce = Enemies[0].Instantiate();
 
             instantce.GetChildren()
-                .OfType<EntityStats>()
-                .First()
-                .GridPosition = 
+                    .OfType<EntityStats>()
+                    .First()
+                    .GridPosition = 
                 PickRandomPosition(entities);
             
             node.AddChild(instantce);

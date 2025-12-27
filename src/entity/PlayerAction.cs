@@ -127,8 +127,8 @@ public partial class PlayerAction : EntityAction, IEntityMove, IEntityAttack
     {
 
         List<List<int>> pattern = FindAttackPatternDirection(gridPosition, _currentAttack, _playerStats.GridPosition);
-        
-        var patternOrigin = FindValueInPattern(_currentAttack.OriginPattern, OR).First();
+
+        var patternOrigin = FindAttackOriginCenter(_currentAttack.OriginPattern);
         
         var originPattern = ((Vector2I[])[
                 ..FindValueInPattern(_currentAttack.OriginPattern, NO),
@@ -136,6 +136,7 @@ public partial class PlayerAction : EntityAction, IEntityMove, IEntityAttack
                 ..FindValueInPattern(_currentAttack.OriginPattern, RO),
                 ..FindValueInPattern(_currentAttack.OriginPattern, DO),
                 ..FindValueInPattern(_currentAttack.OriginPattern, LO),
+                ..FindValueInPattern(_currentAttack.OriginPattern, OA),
             ])
             .Select(x => x - patternOrigin + _playerStats.GridPosition);
 
@@ -174,7 +175,7 @@ public partial class PlayerAction : EntityAction, IEntityMove, IEntityAttack
         if (@event.IsActionPressed("Left_Click"))
         {
             _lClickTcs?.TrySetResult(true);
-        } else if (@event.IsActionPressed("Right_Click"))
+        } else if (@event.IsActionPressed("Switch_Attack"))
         {
             _rClickTcs?.TrySetResult(true);
         }

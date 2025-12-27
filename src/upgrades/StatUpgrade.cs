@@ -10,6 +10,7 @@ public partial class StatUpgrade : Upgrade
     
     public override void ApplyUpgrade(EntityStats playerStats)
     {
+        playerStats.UpgradeIds.Add(Id);
         playerStats.MaxHealth += AdditionalMaxHealth;
         playerStats.Armor += AdditionalArmor;
         playerStats.Speed += AdditionalSpeed;

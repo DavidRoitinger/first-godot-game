@@ -1,0 +1,246 @@
+[
+  {
+    "EntityName": "Player1",
+    "MaxHealth": 5,
+    "Armor": 2,
+    "Speed": 4,
+    "Attacks": [
+      {
+        "Id": 1000,
+        "Name": "Weak Punch",
+        "Level": 0,
+        "Damage": 2,
+        "Buff": false,
+        "UserKnockback": 0,
+        "TargetKnockback": 0,
+        "UserEffect": null,
+        "TargetEffect": null,
+        "OriginPattern": [
+          [
+            2,
+            2,
+            2
+          ],
+          [
+            2,
+            1,
+            2
+          ],
+          [
+            2,
+            2,
+            2
+          ]
+        ],
+        "NeutralAttackPattern": [
+          [
+            1
+          ]
+        ],
+        "UpAttackPattern": null,
+        "RightAttackPattern": null,
+        "DownAttackPattern": null,
+        "LeftAttackPattern": null
+      },
+      {
+        "Id": 1101,
+        "Name": "Weak Self Heal",
+        "Level": 0,
+        "Damage": 0,
+        "Buff": true,
+        "UserKnockback": 0,
+        "TargetKnockback": 0,
+        "UserEffect": null,
+        "TargetEffect": {
+          "$type": "regenEffect",
+          "Name": "Regen",
+          "Description": "Heals 2 Hp for 2 Rounds",
+          "IconPath": "Regen_Icon.png",
+          "Intensity": 2,
+          "Duration": 2
+        },
+        "OriginPattern": [
+          [
+            9
+          ]
+        ],
+        "NeutralAttackPattern": [
+          [
+            1
+          ]
+        ],
+        "UpAttackPattern": null,
+        "RightAttackPattern": null,
+        "DownAttackPattern": null,
+        "LeftAttackPattern": null
+      }
+    ],
+    "UpgradeIds": [
+      2101
+    ]
+  },
+  {
+    "EntityName": "Player2",
+    "MaxHealth": 5,
+    "Armor": 0,
+    "Speed": 4,
+    "Attacks": [
+      {
+        "Id": 1000,
+        "Name": "Weak Punch",
+        "Level": 0,
+        "Damage": 2,
+        "Buff": false,
+        "UserKnockback": 0,
+        "TargetKnockback": 0,
+        "UserEffect": null,
+        "TargetEffect": null,
+        "OriginPattern": [
+          [
+            2,
+            2,
+            2
+          ],
+          [
+            2,
+            1,
+            2
+          ],
+          [
+            2,
+            2,
+            2
+          ]
+        ],
+        "NeutralAttackPattern": [
+          [
+            1
+          ]
+        ],
+        "UpAttackPattern": null,
+        "RightAttackPattern": null,
+        "DownAttackPattern": null,
+        "LeftAttackPattern": null
+      },
+      {
+        "Id": 1102,
+        "Name": "WeakFocus",
+        "Level": 0,
+        "Damage": 0,
+        "Buff": true,
+        "UserKnockback": 0,
+        "TargetKnockback": 0,
+        "UserEffect": null,
+        "TargetEffect": {
+          "$type": "focusEffect",
+          "Name": "Focus",
+          "Description": "Increases Speed, Attack, Amor By 1.25 for 2 Rounds",
+          "IconPath": "Focus_Icon.png",
+          "AffectedStat": {
+            "Speed": 1.25,
+            "Attack": 1.25,
+            "Armor": 1.25
+          },
+          "Intensity": 1,
+          "Duration": 2
+        },
+        "OriginPattern": [
+          [
+            9
+          ]
+        ],
+        "NeutralAttackPattern": [
+          [
+            1
+          ]
+        ],
+        "UpAttackPattern": null,
+        "RightAttackPattern": null,
+        "DownAttackPattern": null,
+        "LeftAttackPattern": null
+      }
+    ],
+    "UpgradeIds": []
+  },
+  {
+    "EntityName": "Player3",
+    "MaxHealth": 5,
+    "Armor": 0,
+    "Speed": 4,
+    "Attacks": [
+      {
+        "Id": 1000,
+        "Name": "Weak Punch",
+        "Level": 0,
+        "Damage": 2,
+        "Buff": false,
+        "UserKnockback": 0,
+        "TargetKnockback": 0,
+        "UserEffect": null,
+        "TargetEffect": null,
+        "OriginPattern": [
+          [
+            2,
+            2,
+            2
+          ],
+          [
+            2,
+            1,
+            2
+          ],
+          [
+            2,
+            2,
+            2
+          ]
+        ],
+        "NeutralAttackPattern": [
+          [
+            1
+          ]
+        ],
+        "UpAttackPattern": null,
+        "RightAttackPattern": null,
+        "DownAttackPattern": null,
+        "LeftAttackPattern": null
+      },
+      {
+        "Id": 1103,
+        "Name": "Weak Resistance",
+        "Level": 0,
+        "Damage": 0,
+        "Buff": true,
+        "UserKnockback": 0,
+        "TargetKnockback": 0,
+        "UserEffect": null,
+        "TargetEffect": {
+          "$type": "resistantEffect",
+          "Name": "Resistant",
+          "Description": "Increases Armor By 1.5 for 2 Rounds",
+          "IconPath": "Resistant_Icon.png",
+          "AffectedStat": {
+            "Armor": 1.5
+          },
+          "Intensity": 1,
+          "Duration": 2
+        },
+        "OriginPattern": [
+          [
+            9
+          ]
+        ],
+        "NeutralAttackPattern": [
+          [
+            1
+          ]
+        ],
+        "UpAttackPattern": null,
+        "RightAttackPattern": null,
+        "DownAttackPattern": null,
+        "LeftAttackPattern": null
+      }
+    ],
+    "UpgradeIds": []
+  }
+]

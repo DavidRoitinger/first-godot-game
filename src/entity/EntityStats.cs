@@ -133,6 +133,9 @@ public partial class EntityStats : Node
     [Export] public Array<int> AttackIds = [];
     public List<Attack> Attacks = [];
     
+    public List<int> UpgradeIds = [];
+    
+    
     public List<Effect> Effects = [
         // new StatusEffect()
         // {
@@ -154,7 +157,7 @@ public partial class EntityStats : Node
     {
         Health,
         MaxHealth,
-        Amor,
+        Armor,
         Speed,
         Attack,
     }
@@ -209,8 +212,17 @@ public partial class EntityStats : Node
     }
     public void AddAttackById(int id)
     {
-        Attacks.Add(AttackPool.Instance.GetAttackById(id));
-        AttackIds.Add(id);
+        if (AttackIds.Contains(id))
+        {
+            Attacks
+                .First(x => x.Id == id)
+                .Level++;
+        }
+        else
+        {
+            Attacks.Add(AttackPool.Instance.GetAttackById(id));
+            AttackIds.Add(id);
+        }
     }
     
     public void AddAttackListById(int[] ids)

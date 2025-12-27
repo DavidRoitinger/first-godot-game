@@ -76,6 +76,12 @@ public partial class SoundManager : Node
 
     public static readonly string Miss = "corru/miss.ogg";
     
+    public static readonly string[] Inspect = [
+        "corru/muiReadout.ogg",
+        "corru/muiScanner.ogg",
+        "corru/muiToggle.ogg",
+    ];
+    
     public static readonly string[] Buff = [
         "corru/mend.ogg",
     ];

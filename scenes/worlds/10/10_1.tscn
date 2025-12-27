@@ -98,6 +98,7 @@ tile_set = ExtResource("6_u27kc")
 [node name="LevelSetup" type="Node" parent="."]
 script = ExtResource("11_56adh")
 EnemyCount = 2
+LevelDifficulty = 1.0
 Enemies = Array[PackedScene]([ExtResource("5_55aya")])
 SafetyRange = 4
 

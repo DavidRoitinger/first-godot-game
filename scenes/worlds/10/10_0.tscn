@@ -57,7 +57,7 @@ material = SubResource("ShaderMaterial_8oi5d")
 
 [node name="EntityStats" parent="Entities/Player" index="1"]
 GridPosition = Vector2i(0, 8)
-AttackIds = Array[int]([1000, 1100])
+AttackIds = Array[int]([1000, 1101])
 
 [node name="Player2" parent="Entities" instance=ExtResource("1_4yhew")]
 position = Vector2(0, 80)
@@ -68,7 +68,7 @@ material = SubResource("ShaderMaterial_xlfua")
 [node name="EntityStats" parent="Entities/Player2" index="1"]
 EntityName = "Player2"
 GridPosition = Vector2i(4, 5)
-AttackIds = Array[int]([1000, 1100])
+AttackIds = Array[int]([1000, 1102])
 
 [node name="Player3" parent="Entities" instance=ExtResource("1_4yhew")]
 position = Vector2(112, 72)
@@ -79,7 +79,7 @@ material = SubResource("ShaderMaterial_rei80")
 [node name="EntityStats" parent="Entities/Player3" index="1"]
 EntityName = "Player3"
 GridPosition = Vector2i(7, 1)
-AttackIds = Array[int]([1000, 1100])
+AttackIds = Array[int]([1000, 1103])
 
 [node name="TilemapLayers" type="Node2D" parent="."]
 
