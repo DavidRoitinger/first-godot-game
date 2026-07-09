@@ -239,8 +239,187 @@
         "RightAttackPattern": null,
         "DownAttackPattern": null,
         "LeftAttackPattern": null
+      },
+      {
+        "Id": 1003,
+        "Name": "Fence",
+        "Level": 0,
+        "Damage": 2,
+        "Buff": false,
+        "UserKnockback": 0,
+        "TargetKnockback": 2,
+        "UserEffect": null,
+        "TargetEffect": null,
+        "OriginPattern": [
+          [
+            2,
+            0,
+            0,
+            0,
+            2
+          ],
+          [
+            0,
+            2,
+            0,
+            2,
+            0
+          ],
+          [
+            0,
+            0,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            2,
+            0,
+            2,
+            0
+          ],
+          [
+            2,
+            0,
+            0,
+            0,
+            2
+          ]
+        ],
+        "NeutralAttackPattern": [
+          [
+            2,
+            0,
+            2
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            2,
+            0,
+            2
+          ]
+        ],
+        "UpAttackPattern": null,
+        "RightAttackPattern": null,
+        "DownAttackPattern": null,
+        "LeftAttackPattern": null
+      },
+      {
+        "Id": 1001,
+        "Name": "Launcher",
+        "Level": 0,
+        "Damage": 1,
+        "Buff": false,
+        "UserKnockback": 0,
+        "TargetKnockback": 1,
+        "UserEffect": null,
+        "TargetEffect": {
+          "$type": "slowEffect",
+          "Name": "Slow",
+          "Description": "Reduces Speed By 1 for 2 Rounds",
+          "IconPath": "Slow_Icon.png",
+          "AffectedStat": {
+            "Speed": 0.5
+          },
+          "Intensity": 2,
+          "Duration": 2
+        },
+        "OriginPattern": [
+          [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          [
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2
+          ],
+          [
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2
+          ],
+          [
+            2,
+            0,
+            0,
+            1,
+            0,
+            0,
+            2
+          ],
+          [
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2
+          ],
+          [
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2
+          ],
+          [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        ],
+        "NeutralAttackPattern": [
+          [
+            2,
+            2,
+            2
+          ],
+          [
+            2,
+            1,
+            2
+          ],
+          [
+            2,
+            2,
+            2
+          ]
+        ],
+        "UpAttackPattern": null,
+        "RightAttackPattern": null,
+        "DownAttackPattern": null,
+        "LeftAttackPattern": null
       }
     ],
-    "UpgradeIds": []
+    "UpgradeIds": [
+      2005,
+      2003
+    ]
   }
 ]

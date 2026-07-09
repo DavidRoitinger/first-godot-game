@@ -92,7 +92,7 @@ public partial class EntityStats : Node
         get => _health;
         set
         {
-            _health = value;
+            _health = value >= MaxHealth ? MaxHealth : value;
 
             var bar = GetParent()
                 ?.GetNode<ProgressBar>("Control/ProgressBar");
